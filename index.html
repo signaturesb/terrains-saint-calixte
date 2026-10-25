@@ -388,10 +388,58 @@
       var TIMELINE_OPTIONS = ["Le plus tôt possible","D'ici 6 mois","L'an prochain","Je m'informe"];
       var DOC_OPTIONS = ["Oui, toute la documentation","Non, juste un rappel"];
       var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      var BATISTE_API = "https://batiste.shawn-0e2.workers.dev";
       function isValidPhone(v){ var d=v.replace(/\D/g,""); return d.length===10 || (d.length===11 && d.charAt(0)==="1"); }
+      function captureAttribution(){
+        var keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"];
+        var data = {};
+        try { var saved = window.sessionStorage.getItem("sb_attribution"); if(saved) data = JSON.parse(saved) || {}; } catch(e) {}
+        var params = new URLSearchParams(window.location.search);
+        keys.forEach(function(k){ var v = params.get(k); if(v) data[k] = v.slice(0,500); });
+        if(!data.pageUrl) data.pageUrl = window.location.href.slice(0,1000);
+        if(!data.landingPage) data.landingPage = window.location.pathname;
+        if(!data.referrer && document.referrer) data.referrer = document.referrer.slice(0,1000);
+        try { window.sessionStorage.setItem("sb_attribution", JSON.stringify(data)); } catch(e) {}
+        return data;
+      }
+      function newLeadId(){
+        if(window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+        return "lead-" + Date.now() + "-" + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2);
+      }
 
       function factualAnswer(raw){
         var q = raw.toLowerCase();
+        var qn = q.normalize ? q.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : q;
+        if(qn.indexOf("taxes municipales")>-1 || qn.indexOf("taxe municipale")>-1){
+          return "Je n'ai pas le montant exact des taxes municipales pour ces terrains. Shawn te le confirmera lors de son appel.";
+        }
+        if(qn.indexOf("tps")>-1 || qn.indexOf("tvq")>-1 || ((qn.indexOf("taxe")>-1) && (qn.indexOf("incluse")>-1 || qn.indexOf("incluses")>-1 || qn.indexOf("en sus")>-1 || qn.indexOf("plus les")>-1))){
+          return "Les prix affichés sont plus TPS/TVQ.";
+        }
+        if(qn.indexOf("negociable")>-1 || qn.indexOf("faire une offre")>-1 || qn.indexOf("deposer une offre")>-1){
+          return "Les prix affichés sont les prix demandés. Pour une offre, ça se discute directement avec Shawn lors de son appel.";
+        }
+        if(qn.indexOf("financement")>-1 || qn.indexOf("financer")>-1 || qn.indexOf("hypotheque")>-1 || qn.indexOf("prequalification")>-1){
+          return "Pour le financement, Shawn te confirmera les options lors de son appel.";
+        }
+        if((qn.indexOf("limite de temps")>-1 || qn.indexOf("combien de temps")>-1 || qn.indexOf("delai")>-1) && (qn.indexOf("constru")>-1 || qn.indexOf("permis")>-1)){
+          return "Je n'ai pas de limite de temps confirmée à te donner pour construire. Shawn te confirmera ce point lors de son appel.";
+        }
+        if(qn.indexOf("visiter")>-1 || qn.indexOf("visite")>-1){
+          return "Pour planifier une visite, complète ta demande ici : Shawn te rappellera et fixera le moment avec toi.";
+        }
+        if(qn.indexOf("vercingetorix")>-1 && (qn.indexOf("septique")>-1 || qn.indexOf("sol")>-1 || qn.indexOf("roc")>-1 || qn.indexOf("excavation")>-1)){
+          return "Pour Vercingétorix, l'étude INGÉO (mai 2025) indique du roc à 1,0 m : on privilégie une installation septique hors-sol.";
+        }
+        if(qn.indexOf("trembles")>-1 && (qn.indexOf("sol")>-1 || qn.indexOf("permeable")>-1 || qn.indexOf("profondeur")>-1 || qn.indexOf("niveau d'eau")>-1)){
+          return "Pour la rue des Trembles, l'étude INGÉO (juin 2026) indique un sol très perméable, avec l'eau souterraine à 1,30 m.";
+        }
+        if(qn.indexOf("denise")>-1 && (qn.indexOf("septique")>-1 || qn.indexOf("sol")>-1 || qn.indexOf("excavation")>-1)){
+          return "Pour la rue Denise, l'étude INGÉO (mai 2026) indique qu'une installation septique conventionnelle modifiée est possible.";
+        }
+        if(qn.indexOf("routier")>-1 && (qn.indexOf("septique")>-1 || qn.indexOf("sol")>-1 || qn.indexOf("test de faisabilite")>-1)){
+          return "Pour la rue du Routier, le test de faisabilité du sol est fourni à l'achat.";
+        }
         if(q.indexOf("prix")>-1||q.indexOf("combien")>-1||q.indexOf("coût")>-1||q.indexOf("cout")>-1){
           return "Voici les prix : des Trembles 58 888 $, Denise 67 777 $, Vercingétorix 77 777 $ et du Routier 98 888 $. C'est tout — il n'y en a que 4.";
         }
@@ -399,7 +447,7 @@
           return "Les superficies : des Trembles 12 298 pi², Denise 14 962 pi², du Routier 24 657 pi² (bord de l'eau — lac Raymond) et Vercingétorix 38 577 pi² — le plus grand, avec accès au Lac Siesta.";
         }
         if(q.indexOf("septique")>-1||q.indexOf("sol")>-1||q.indexOf("excavation")>-1||q.indexOf("puits")>-1){
-          return "Bonne question — c'est justement le point fort de ces lots : ils sont plats (excavation minimale) et l'étude de sol est déjà faite, donc on vise une installation septique conventionnelle, la plus abordable. Aucun service municipal : puits + installation septique.";
+          return "Bonne question — les lots sont plats (excavation minimale) et l'étude de sol est déjà faite. Le système dépend du lot : conventionnel modifié possible sur Denise, hors-sol à privilégier sur Vercingétorix à cause du roc à 1,0 m, et sol très perméable aux Trembles. Aucun service municipal : puits + installation septique.";
         }
         if(q.indexOf("bord de l'eau")>-1||q.indexOf("raymond")>-1||q.indexOf("routier")>-1){
           return "Oui — le terrain de la rue du Routier (98 888 $, 24 657 pi²) est bordé par le lac Raymond : vue imprenable et accès direct à l'eau, caractéristique officielle « Accès à l'eau » sur sa fiche. C'est le seul des 4 en bord de l'eau — et il n'y en a qu'un seul disponible.";
@@ -433,8 +481,13 @@
       var proactiveEl = document.getElementById("proactive");
 
       var step = "terrain";
-      var draft = { terrain:"", documentation:"", projectType:"", timeline:"", description:"", email:"", phone:"" };
+      var draft = { terrain:"", documentation:"", projectType:"", timeline:"", description:"", name:"", email:"", phone:"" };
       var started = false;
+      var chatHistory = [];
+      var chatPending = false;
+      var leadAttribution = captureAttribution();
+      var leadPayload = null;
+      var leadSubmitting = false;
       var timers = [];
       var queue = [];
       var busyFlag = false;
@@ -443,7 +496,7 @@
       function later(fn, ms){ var t = window.setTimeout(fn, ms); timers.push(t); }
       function scrollBottom(){ msgsEl.scrollTop = msgsEl.scrollHeight; }
       function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-      function isBusy(){ return isTyping || !!msgsEl.querySelector(".bubble-bot[data-done='0']"); }
+      function isBusy(){ return chatPending || leadSubmitting || isTyping || !!msgsEl.querySelector(".bubble-bot[data-done='0']"); }
 
       function renderOptions(){
         var opts = [];
@@ -465,7 +518,8 @@
       }
 
       function updatePlaceholder(){
-        if(step==="email"){ inputEl.placeholder="ton@courriel.com"; inputEl.inputMode="email"; inputEl.autocomplete="email"; }
+        if(step==="name"){ inputEl.placeholder="Ton nom"; inputEl.inputMode="text"; inputEl.autocomplete="name"; }
+        else if(step==="email"){ inputEl.placeholder="ton@courriel.com"; inputEl.inputMode="email"; inputEl.autocomplete="email"; }
         else if(step==="phone"){ inputEl.placeholder="Ton numéro de téléphone"; inputEl.inputMode="tel"; inputEl.autocomplete="tel"; }
         else if(step==="description"){ inputEl.placeholder="Décris ton projet en une phrase…"; inputEl.inputMode="text"; inputEl.autocomplete="off"; }
         else { inputEl.placeholder="Écris à Batiste…"; inputEl.inputMode="text"; inputEl.autocomplete="off"; }
@@ -521,6 +575,49 @@
         row.appendChild(b); msgsEl.appendChild(row); scrollBottom();
       }
 
+      function rememberChat(role, content){
+        chatHistory.push({role:role, content:content});
+        if(chatHistory.length>12) chatHistory = chatHistory.slice(-12);
+      }
+      function stepContinuation(){
+        if(step==="terrain") return "Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?";
+        if(step==="documentation") return "On continue : tu veux recevoir la documentation ? Choisis une option ci-dessous.";
+        if(step==="project") return "On continue : ton projet, ça ressemble à quoi ?";
+        if(step==="timeline") return "On continue : ton délai, tu penses à quand ?";
+        if(step==="description") return "On continue : décris ton projet en une phrase — ou tape « Je passe ».";
+        return "";
+      }
+      function askBatiste(text){
+        if(chatPending) return;
+        chatPending = true;
+        rememberChat("user", text);
+        showTyping();
+        var controller = window.AbortController ? new AbortController() : null;
+        var timeout = controller ? window.setTimeout(function(){ controller.abort(); }, 20000) : null;
+        fetch(BATISTE_API + "/chat", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({messages:chatHistory}),
+          signal: controller ? controller.signal : undefined
+        }).then(function(r){
+          if(!r.ok) throw new Error("chat");
+          return r.json();
+        }).then(function(data){
+          var reply = data && typeof data.reply === "string" ? data.reply.trim() : "";
+          if(!reply) throw new Error("chat");
+          if(timeout) window.clearTimeout(timeout);
+          hideTyping(); chatPending = false;
+          rememberChat("assistant", reply);
+          botSay(reply);
+          var cont = stepContinuation(); if(cont) botSay(cont);
+        }).catch(function(){
+          if(timeout) window.clearTimeout(timeout);
+          hideTyping(); chatPending = false;
+          if(chatHistory.length && chatHistory[chatHistory.length-1].role === "user") chatHistory.pop();
+          botSay("Je rencontre un petit souci technique. Réessaie dans un instant — ou choisis une option ci-dessous pour continuer ta demande.");
+        });
+      }
+
       function askProject(){ step="project"; botSay("Ton projet, ça ressemble à quoi ?"); }
       function askDocumentation(terrainValue){
         step="documentation";
@@ -561,7 +658,7 @@
         else if(step==="documentation") chooseDocumentation(value);
         else if(step==="project") chooseProject(value);
         else if(step==="timeline") chooseTimeline(value);
-        else if(step==="description"){ userSay(value); step="email"; botSay("Ton courriel ?"); }
+        else if(step==="description"){ userSay(value); step="name"; botSay("Ton nom ?"); }
       }
 
       function showSummary(){
@@ -573,6 +670,7 @@
         rows += '<div class="row"><dt>Projet</dt><dd>'+esc(draft.projectType)+'</dd></div>';
         rows += '<div class="row"><dt>Délai</dt><dd>'+esc(draft.timeline)+'</dd></div>';
         if(draft.description) rows += '<div class="row"><dt>Description</dt><dd>'+esc(draft.description)+'</dd></div>';
+        rows += '<div class="row"><dt>Nom</dt><dd>'+esc(draft.name)+'</dd></div>';
         rows += '<div class="row"><dt>Courriel</dt><dd>'+esc(draft.email)+'</dd></div>';
         rows += '<div class="row"><dt>Téléphone</dt><dd>'+esc(draft.phone)+'</dd></div>';
         card.innerHTML = '<h4 class="font-display">Ta demande</h4><dl>'+rows+'</dl>';
@@ -582,13 +680,60 @@
         card.appendChild(btn);
         msgsEl.appendChild(card); scrollBottom();
       }
+      function buildLeadPayload(){
+        if(leadPayload) return leadPayload;
+        var id = newLeadId();
+        leadPayload = {
+          leadId: id,
+          eventId: id,
+          submittedAt: new Date().toISOString(),
+          terrain: draft.terrain,
+          documentation: draft.documentation,
+          projectType: draft.projectType,
+          timeline: draft.timeline,
+          description: draft.description,
+          name: draft.name,
+          email: draft.email,
+          phone: draft.phone,
+          source: {
+            pageUrl: leadAttribution.pageUrl || window.location.href,
+            landingPage: leadAttribution.landingPage || window.location.pathname,
+            referrer: leadAttribution.referrer || "",
+            utmSource: leadAttribution.utm_source || "",
+            utmMedium: leadAttribution.utm_medium || "",
+            utmCampaign: leadAttribution.utm_campaign || "",
+            utmContent: leadAttribution.utm_content || "",
+            utmTerm: leadAttribution.utm_term || "",
+            fbclid: leadAttribution.fbclid || "",
+            gclid: leadAttribution.gclid || ""
+          }
+        };
+        return leadPayload;
+      }
       function submitLead(){
+        if(leadSubmitting) return;
+        leadSubmitting = true;
         var btn = msgsEl.querySelector(".btn-send");
-        if(btn){ btn.disabled=true; btn.textContent="Envoi en cours…"; }
-        later(function(){
+        if(btn){ btn.disabled = true; btn.textContent = "Envoi en cours…"; }
+        var payload = buildLeadPayload();
+        var controller = window.AbortController ? new AbortController() : null;
+        var timeout = controller ? window.setTimeout(function(){ controller.abort(); }, 15000) : null;
+        fetch(BATISTE_API + "/lead", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined
+        }).then(function(r){
+          return r.json().catch(function(){ return {}; }).then(function(data){
+            if(!r.ok || !data.ok) throw new Error("lead");
+            return data;
+          });
+        }).then(function(){
+          if(timeout) window.clearTimeout(timeout);
+          leadSubmitting = false;
           var card = document.getElementById("summary-card");
           if(card) card.remove();
-          step="done"; renderOptions();
+          step = "done"; renderOptions();
           if(draft.documentation.indexOf("Oui")===0 && draft.terrain==="Les 4"){
             botSay("C'est envoyé ! 📩 La documentation complète des 4 terrains partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Et Shawn te contactera personnellement pour en discuter plus en détail. Merci !");
           } else if(draft.documentation.indexOf("Oui")===0){
@@ -603,13 +748,19 @@
             b.addEventListener("click", function(){ startFlow(null); });
             wrap.appendChild(b); msgsEl.appendChild(wrap); scrollBottom();
           }, 700);
-        }, 600);
+        }).catch(function(){
+          if(timeout) window.clearTimeout(timeout);
+          leadSubmitting = false;
+          var retryBtn = msgsEl.querySelector(".btn-send");
+          if(retryBtn){ retryBtn.disabled = false; retryBtn.textContent = "Réessayer l'envoi"; }
+          botSay("L'envoi n'a pas fonctionné — ta demande n'est pas transmise. Vérifie ta connexion, puis clique sur « Réessayer l'envoi » dans le résumé.");
+        });
       }
 
       function startFlow(preset){
         msgsEl.innerHTML="";
-        draft = { terrain:"", documentation:"", projectType:"", timeline:"", description:"", email:"", phone:"" };
-        queue = []; busyFlag=false; hideTyping();
+        draft = { terrain:"", documentation:"", projectType:"", timeline:"", description:"", name:"", email:"", phone:"" };
+        queue = []; busyFlag=false; chatHistory = []; chatPending = false; leadPayload = null; leadSubmitting = false; hideTyping();
         if(preset){
           draft.terrain = preset;
           botSay(preset==="Rue du Routier"
@@ -665,7 +816,12 @@
         if(step==="description"){
           userSay(text);
           draft.description = lower==="je passe" ? "" : text;
-          step="email"; botSay("Ton courriel ?"); return;
+          step="name"; botSay("Ton nom ?"); return;
+        }
+        if(step==="name"){
+          userSay(text);
+          if(text.length<2){ botSay("Il me faut ton nom pour la demande — c'est à ce nom que Shawn te répondra. Ton nom ?"); return; }
+          draft.name=text; step="email"; botSay("Ton courriel ?"); return;
         }
         if(step==="email"){
           userSay(text);
@@ -680,12 +836,13 @@
           return;
         }
         if(step==="documentation"){
-          if(lower.indexOf("oui")>-1||lower.indexOf("doc")>-1||lower.indexOf("envoie")>-1||lower.indexOf("envoyez")>-1){ chooseDocumentation(DOC_OPTIONS[0]); return; }
-          if(lower.indexOf("non")>-1||lower.indexOf("rappel")>-1){ chooseDocumentation(DOC_OPTIONS[1]); return; }
+          var dn = lower.normalize ? lower.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim() : lower.trim();
+          if(/^(oui|yes|ok|d'accord|vas-y|envoie|envoyez|je veux la documentation|envoie-moi la documentation|documentation)\b/.test(dn)){ chooseDocumentation(DOC_OPTIONS[0]); return; }
+          if(/^(non|no|juste un rappel|rappel seulement|rappelle-moi)\b/.test(dn)){ chooseDocumentation(DOC_OPTIONS[1]); return; }
         }
         var answer = factualAnswer(text);
         if(answer){
-          userSay(text); botSay(answer);
+          userSay(text); rememberChat("user", text); rememberChat("assistant", answer); botSay(answer);
           if(step==="terrain") botSay("Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?");
           else if(step==="documentation") botSay("On continue : tu veux recevoir la documentation ? Choisis une option ci-dessous.");
           else if(step==="project") botSay("On continue : ton projet, ça ressemble à quoi ?");
@@ -708,7 +865,7 @@
           for(var k=0;k<TIMELINE_OPTIONS.length;k++){ if(lower.indexOf(TIMELINE_OPTIONS[k].toLowerCase().slice(0,6))>-1){ chooseTimeline(TIMELINE_OPTIONS[k]); return; } }
         }
         userSay(text);
-        botSay("Choisis une option ci-dessous — ou pose-moi une question (prix, sol, bord de l'eau…).");
+        askBatiste(text);
       });
     })();
     </script>
