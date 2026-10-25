@@ -305,7 +305,7 @@
             <article class="step-card">
               <p class="step-num font-display" aria-hidden="true">1</p>
               <h3 class="font-display">Choisis ton terrain</h3>
-              <p>Un des 4 — ou les quatre si tu veux tout comparer.</p>
+              <p>Un des 4 — ou les 4 si tu veux tout comparer.</p>
             </article>
             <article class="step-card">
               <p class="step-num font-display" aria-hidden="true">2</p>
@@ -419,7 +419,7 @@
           return "Les 4 terrains sont à Saint-Calixte, à 10 minutes de Saint-Lin, dans Lanaudière.";
         }
         if(q.indexOf("zonage")>-1||q.indexOf("construire")>-1||q.indexOf("maison")>-1){
-          return "Le zonage est résidentiel sur les 4 lots. La forme et la taille du lot décident du modèle de maison qui y rentre bien — dis-moi ton projet et je te dirai lequel fit le mieux.";
+          return "Le zonage est résidentiel sur les 4 lots. La forme et la taille du lot décident du modèle de maison qui y rentre bien — dis-moi ton projet et je te dirai lequel convient le mieux.";
         }
         if(q.indexOf("service")>-1||q.indexOf("aqueduc")>-1||q.indexOf("égout")>-1||q.indexOf("egout")>-1){
           return "Il n'y a aucun service municipal sur ces lots : ça fonctionne avec un puits et une installation septique. L'étude de sol déjà faite dit quel système installer, sans surprise.";
@@ -455,7 +455,7 @@
 
       function renderOptions(){
         var opts = [];
-        if(step==="terrain") opts = LOTS.map(function(l){return l.street;}).concat(["Les quatre"]);
+        if(step==="terrain") opts = LOTS.map(function(l){return l.street;}).concat(["Les 4"]);
         else if(step==="documentation") opts = DOC_OPTIONS;
         else if(step==="project") opts = PROJECT_OPTIONS;
         else if(step==="timeline") opts = TIMELINE_OPTIONS;
@@ -532,13 +532,13 @@
       function askProject(){ step="project"; botSay("Ton projet, ça ressemble à quoi ?"); }
       function askDocumentation(terrainValue){
         step="documentation";
-        if(terrainValue==="Les quatre") botSay("Je t'envoie la documentation complète des 4 terrains à ton courriel ? Les fiches, les plans, les déclarations du vendeur et les études de sol.");
+        if(terrainValue==="Les 4") botSay("Je t'envoie la documentation complète des 4 terrains à ton courriel ? Les fiches, les plans, les déclarations du vendeur et les études de sol.");
         else botSay("Je t'envoie la documentation de la "+terrainValue+" à ton courriel ? Les fiches, les plans, les déclarations du vendeur et les études de sol.");
       }
       function chooseDocumentation(value){
         userSay(value);
         if(value===DOC_OPTIONS[0]){
-          draft.documentation = draft.terrain==="Les quatre" ? "Oui — documentation complète des 4 terrains" : "Oui — documentation de ce terrain";
+          draft.documentation = draft.terrain==="Les 4" ? "Oui — documentation complète des 4 terrains" : "Oui — documentation de ce terrain";
         } else {
           draft.documentation = "Non — rappel seulement";
         }
@@ -546,8 +546,8 @@
       }
       function chooseTerrain(value){
         userSay(value);
-        if(value==="Les quatre"){
-          draft.terrain="Les quatre";
+        if(value==="Les 4"){
+          draft.terrain="Les 4";
           botSay("Les 4 (étude de sol incluse) : Trembles 58 888 $ · Denise 67 777 $ · Vercingétorix 77 777 $ (Lac Siesta) · Routier 98 888 $ (bord de l'eau, lac Raymond).");
         } else {
           draft.terrain=value;
@@ -597,7 +597,7 @@
           var card = document.getElementById("summary-card");
           if(card) card.remove();
           step="done"; renderOptions();
-          if(draft.documentation.indexOf("Oui")===0 && draft.terrain==="Les quatre"){
+          if(draft.documentation.indexOf("Oui")===0 && draft.terrain==="Les 4"){
             botSay("C'est envoyé ! 📩 La documentation complète des 4 terrains partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Et Shawn te contactera personnellement pour en discuter plus en détail. Merci !");
           } else if(draft.documentation.indexOf("Oui")===0){
             botSay("C'est envoyé ! 📩 La documentation de la "+draft.terrain+" partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Et Shawn te contactera personnellement pour en discuter plus en détail. Merci !");
@@ -694,14 +694,14 @@
         var answer = factualAnswer(text);
         if(answer){
           userSay(text); botSay(answer);
-          if(step==="terrain") botSay("Alors, lequel des 4 t'intéresse — ou « Les quatre » pour l'information sur les 4 ?");
+          if(step==="terrain") botSay("Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?");
           else if(step==="documentation") botSay("On continue : tu veux recevoir la documentation ? Choisis une option ci-dessous.");
           else if(step==="project") botSay("On continue : ton projet, ça ressemble à quoi ?");
           else if(step==="timeline") botSay("On continue : ton délai, tu penses à quand ?");
           return;
         }
         if(step==="terrain"){
-          if(lower.indexOf("quatre")>-1||lower.indexOf("les 4")>-1||lower.indexOf("tous les")>-1||lower.indexOf("toutes les")>-1||lower.indexOf("documentation")>-1){ chooseTerrain("Les quatre"); return; }
+          if(lower.indexOf("quatre")>-1||lower.indexOf("les 4")>-1||lower.indexOf("tous les")>-1||lower.indexOf("toutes les")>-1||lower.indexOf("documentation")>-1){ chooseTerrain("Les 4"); return; }
           var match=null;
           for(var i=0;i<LOTS.length;i++){
             var key = LOTS[i].street.toLowerCase().replace("rue ","").replace("des ","").replace("de ","").replace("du ","");
