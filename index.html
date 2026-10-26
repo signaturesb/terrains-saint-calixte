@@ -185,6 +185,24 @@
         html{scroll-behavior:auto}
       }
     @media(max-width:480px){.chat-head .pill{display:none}.chat-head{padding:.625rem .75rem}.chat-head .who .status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+
+      .sb-consent{position:fixed;left:0;right:0;bottom:0;z-index:39;background:#fff;border-top:3px solid #aa0721;box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:.75rem 6rem .75rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+      .sb-consent[hidden]{display:none}
+      .sb-consent .txt{margin:0;font-size:.85rem;line-height:1.45;color:#111;max-width:62ch}
+      .sb-consent .acts{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+      .sb-btn{appearance:none;border-radius:999px;padding:.5rem 1rem;font-weight:700;font-size:.85rem;cursor:pointer;border:2px solid #aa0721;font-family:inherit}
+      .sb-btn-primary{background:#aa0721;color:#fff}
+      .sb-btn-ghost{background:#fff;color:#aa0721}
+      .sb-policy-link{background:none;border:0;padding:0;color:#aa0721;font-weight:700;cursor:pointer;text-decoration:underline;font-size:.85rem;font-family:inherit}
+      .privacy-line{margin:1.25rem auto .5rem;max-width:72rem;padding:0 1rem;font-size:.85rem;color:#111;text-align:center}
+      .chat-notice{margin:0;padding:.5rem .9rem;font-size:.78rem;line-height:1.4;color:#444;background:#faf7f2;border-bottom:1px solid var(--border)}
+      .sb-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:1rem}
+      .sb-modal[hidden]{display:none}
+      .sb-modal-card{background:#fff;max-width:640px;width:100%;max-height:86dvh;overflow:auto;border-radius:16px;padding:1.5rem;position:relative;box-shadow:0 24px 48px rgba(0,0,0,.35)}
+      .sb-modal-card h2{margin:0 2rem .75rem 0;font-size:1.25rem}
+      .sb-modal-card h3{margin:1rem 0 .25rem;font-size:1rem;color:#aa0721}
+      .sb-modal-card p{margin:.25rem 0;font-size:.9rem;line-height:1.55;color:#222}
+      .sb-modal-x{position:absolute;top:.6rem;right:.9rem;background:none;border:0;font-size:1.6rem;line-height:1;cursor:pointer;color:#111}
 </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -196,8 +214,13 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1125949153352183');
-  fbq('track', 'PageView');
+  window.sbPixelStarted = false;
+  window.sbStartPixel = function(){
+    if(window.sbPixelStarted) return; window.sbPixelStarted = true;
+    fbq('init', '1125949153352183');
+    fbq('track', 'PageView');
+  };
+  try{ if(localStorage.getItem('sb-consent') === 'oui'){ window.sbStartPixel(); } }catch(e){}
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1125949153352183&ev=PageView&noscript=1"
@@ -346,7 +369,8 @@
         <img src="data:image/webp;base64,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" alt="Signature SB Groupe Immobilier" />
         <p>Shawn Barrette, courtier immobilier résidentiel — Signature SB Groupe Immobilier. Disponibilité et détails à confirmer.</p>
       </div>
-    </footer>
+    <p class="privacy-line">Vos renseignements personnels sont traités avec soin, jamais vendus. <button type="button" class="sb-policy-link" id="sb-policy-open">Politique de confidentialité</button></p>
+</footer>
 
     <!-- Bulle proactive -->
     <div class="proactive hidden" id="proactive">
@@ -380,6 +404,7 @@
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
         </div>
+        <p class="chat-notice">Assistant automatisé (IA) de Signature SB — vos réponses servent uniquement à traiter votre demande de terrain.</p>
         <div class="chat-msgs" id="chat-msgs"></div>
         <div class="chat-options hidden" id="chat-options"></div>
         <form class="chat-form" id="chat-form">
@@ -785,7 +810,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           });
         }).then(function(){
           if(timeout) window.clearTimeout(timeout);
-          if(window.fbq){ try{ fbq("track","Lead",{content_name:"Demande terrains Saint-Calixte", content_category: payload.terrain, currency:"CAD"}, {eventID: payload.leadId}); }catch(e){} }
+          if(window.fbq && window.sbPixelStarted){ (async function(){ try{ var _h = async function(s){ var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(function(x){ return x.toString(16).padStart(2, "0"); }).join(""); }; var _em = (payload.email || "").trim().toLowerCase(); var _ph = (payload.phone || "").replace(/\D/g, ""); if(_ph.length === 10) _ph = "1" + _ph; var _nm = (payload.name || "").trim().toLowerCase().split(/\s+/); var _ud = {}; if(_em) _ud.em = await _h(_em); if(_ph) _ud.ph = await _h(_ph); if(_nm[0]) _ud.fn = await _h(_nm[0]); if(_nm.length > 1) _ud.ln = await _h(_nm.slice(1).join(" ")); if(Object.keys(_ud).length) fbq("init", "1125949153352183", _ud); }catch(e){} try{ fbq("track","Lead",{content_name:"Demande terrains Saint-Calixte", content_category: payload.terrain, currency:"CAD"}, {eventID: payload.leadId}); }catch(e){} })(); }
           leadSubmitting = false;
           var card = document.getElementById("summary-card");
           if(card) card.remove();
@@ -929,7 +954,52 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         userSay(text);
         askBatiste(text);
       });
+          (function(){
+        var KEY = 'sb-consent';
+        var bar = document.getElementById('sb-consent');
+        function choice(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
+        function set(v){ try{ localStorage.setItem(KEY, v); }catch(e){} if(bar) bar.hidden = true; if(v === 'oui' && window.sbStartPixel) window.sbStartPixel(); }
+        if(bar && !choice()) bar.hidden = false;
+        var y = document.getElementById('sb-consent-yes'), n = document.getElementById('sb-consent-no');
+        if(y) y.addEventListener('click', function(){ set('oui'); });
+        if(n) n.addEventListener('click', function(){ set('non'); });
+        var modal = document.getElementById('sb-policy');
+        function openP(){ if(modal) modal.hidden = false; }
+        function closeP(){ if(modal) modal.hidden = true; }
+        ['sb-policy-open', 'sb-policy-open-2'].forEach(function(id){ var b = document.getElementById(id); if(b) b.addEventListener('click', openP); });
+        var c = document.getElementById('sb-policy-close'); if(c) c.addEventListener('click', closeP);
+        if(modal) modal.addEventListener('click', function(ev){ if(ev.target === modal) closeP(); });
+        var r = document.getElementById('sb-consent-reset');
+        if(r) r.addEventListener('click', function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); });
+      })();
     })();
     </script>
-  </body>
+  
+  <div class="sb-consent" id="sb-consent" hidden>
+    <p class="txt">Nous utilisons des témoins de mesure (Meta) pour améliorer nos publicités. Vous pouvez refuser : le site et Batiste restent pleinement utilisables.</p>
+    <div class="acts">
+      <button type="button" class="sb-btn sb-btn-primary" id="sb-consent-yes">Accepter</button>
+      <button type="button" class="sb-btn sb-btn-ghost" id="sb-consent-no">Refuser</button>
+      <button type="button" class="sb-policy-link" id="sb-policy-open-2">Confidentialité</button>
+    </div>
+  </div>
+  <div class="sb-modal" id="sb-policy" hidden>
+    <div class="sb-modal-card" role="dialog" aria-modal="true" aria-labelledby="sb-policy-title">
+      <button type="button" class="sb-modal-x" id="sb-policy-close" aria-label="Fermer la politique de confidentialité">&times;</button>
+      <h2 id="sb-policy-title">Politique de confidentialité</h2>
+      <h3>Responsable</h3>
+      <p>Signature SB Groupe Immobilier — Shawn Barrette, courtier immobilier et responsable de la protection des renseignements personnels. 3530, rue Queen, Rawdon (Québec). Courriel : shawn@signaturesb.com — Téléphone : 514-927-1340.</p>
+      <h3>Ce que nous recueillons</h3>
+      <p>Par l'assistant Batiste : votre nom, votre courriel, votre numéro de téléphone, le terrain qui vous intéresse, votre type de projet, votre délai et la description que vous écrivez. Par la page : l'adresse de la page visitée et les paramètres de provenance (par exemple la campagne publicitaire). Seulement si vous acceptez les témoins : des identifiants de mesure Meta.</p>
+      <h3>Pourquoi</h3>
+      <p>Traiter votre demande de renseignements sur un terrain, vous recontacter et assurer le suivi. Avec votre consentement, mesurer l'efficacité de nos publicités.</p>
+      <h3>Qui reçoit vos renseignements</h3>
+      <p>Signature SB Groupe Immobilier. Nos outils techniques : Batiste fonctionne avec un modèle d'intelligence artificielle (Anthropic), l'alerte de votre demande est transmise par Brevo, et le service est hébergé chez Cloudflare et GitHub. Certains de ces fournisseurs peuvent traiter ou conserver des données à l'extérieur du Québec.</p>
+      <h3>Conservation et vos droits</h3>
+      <p>Vos renseignements sont conservés le temps nécessaire au suivi de votre demande, puis détruits ou anonymisés. Vous pouvez demander l'accès à vos renseignements, leur rectification ou le retrait de votre consentement en écrivant à shawn@signaturesb.com.</p>
+      <h3>Témoins de mesure</h3>
+      <p>Les témoins de mesure Meta ne sont activés qu'après votre acceptation. <button type="button" class="sb-policy-link" id="sb-consent-reset">Réinitialiser mon choix de témoins</button></p>
+    </div>
+  </div>
+</body>
 </html>
