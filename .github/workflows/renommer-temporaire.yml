@@ -1,0 +1,16 @@
+name: Renommer temporaire
+on: workflow_dispatch
+permissions: contents: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git mv -f page-finale-v9-coordonnee.html page-finale-v9.html
+          rm -f .github/workflows/renommer-temporaire.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Renommage page finale v9"
+          git push
