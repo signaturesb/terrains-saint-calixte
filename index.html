@@ -184,7 +184,15 @@
         .sb-rise,.tdot,.caret{animation:none}
         html{scroll-behavior:auto}
       }
-    @media(max-width:480px){.chat-head .pill{display:none}.chat-head{padding:.625rem .75rem}.chat-head .who .status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    /* CORRECTIF SHAWN 2026-10-25 23 h 16 : panneau de chat épinglé à la largeur visible — le bouton rond d'envoi ne doit jamais sortir de l'écran (mobile / navigateur intégré). */
+      html,body{overflow-x:clip}
+      .chat-overlay{left:0;right:0;width:100dvw;max-width:100dvw;overflow:hidden}
+      .chat-panel{min-width:0;max-width:calc(100dvw - 1.5rem)}
+      .chat-head,.chat-msgs,.chat-options,.chat-form,.chat-notice{min-width:0;max-width:100%}
+      .msg-row,.msg-user{min-width:0;max-width:100%}
+      .chat-form input{flex:1 1 auto}
+      .chat-form .send{flex:0 0 auto}
+      @media(max-width:480px){.chat-head .pill{display:none}.chat-head{padding:.625rem .75rem}.chat-head .who .status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 
       .sb-consent{position:fixed;left:0;right:0;bottom:0;z-index:39;background:#fff;border-top:3px solid #aa0721;box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:.75rem 6rem .75rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
       .sb-consent[hidden]{display:none}
@@ -206,25 +214,24 @@
 </style>
   <!-- Meta Pixel Code -->
   <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
   window.sbPixelStarted = false;
+  window.sbHasConsent = function(){
+    try{ return localStorage.getItem('sb-consent') === 'oui'; }catch(e){ return false; }
+  };
   window.sbStartPixel = function(){
-    if(window.sbPixelStarted) return; window.sbPixelStarted = true;
+    if(!window.sbHasConsent() || window.sbPixelStarted) return;
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+      t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.sbPixelStarted = true;
     fbq('init', '1125949153352183');
     fbq('track', 'PageView');
   };
-  try{ if(localStorage.getItem('sb-consent') === 'oui'){ window.sbStartPixel(); } }catch(e){}
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1125949153352183&ev=PageView&noscript=1"
-  /></noscript>
+  if(window.sbHasConsent()) window.sbStartPixel();
+</script>
+  
   <!-- End Meta Pixel Code -->
   </head>
   <body>
@@ -404,7 +411,7 @@
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
         </div>
-        <p class="chat-notice">Assistant automatisé (IA) de Signature SB — vos réponses servent uniquement à traiter votre demande de terrain.</p>
+        <p class="chat-notice">Assistant automatisé (IA) de Signature SB — vos réponses servent uniquement à traiter votre demande de terrain. <button type="button" class="sb-policy-link" id="sb-policy-open-3">Politique de confidentialité</button></p>
         <div class="chat-msgs" id="chat-msgs"></div>
         <div class="chat-options hidden" id="chat-options"></div>
         <form class="chat-form" id="chat-form">
@@ -417,7 +424,35 @@
       </div>
     </div>
 
-    <script>
+    
+  
+  <div class="sb-consent" id="sb-consent" hidden>
+    <p class="txt">Nous utilisons des témoins de mesure (Meta) pour améliorer nos publicités. Vous pouvez refuser : le site et Batiste restent pleinement utilisables.</p>
+    <div class="acts">
+      <button type="button" class="sb-btn sb-btn-primary" id="sb-consent-yes">Accepter</button>
+      <button type="button" class="sb-btn sb-btn-ghost" id="sb-consent-no">Refuser</button>
+      <button type="button" class="sb-policy-link" id="sb-policy-open-2">Confidentialité</button>
+    </div>
+  </div>
+  <div class="sb-modal" id="sb-policy" hidden>
+    <div class="sb-modal-card" role="dialog" aria-modal="true" aria-labelledby="sb-policy-title">
+      <button type="button" class="sb-modal-x" id="sb-policy-close" aria-label="Fermer la politique de confidentialité">&times;</button>
+      <h2 id="sb-policy-title">Politique de confidentialité</h2>
+      <h3>Responsable</h3>
+      <p>Signature SB Groupe Immobilier — Shawn Barrette, courtier immobilier et responsable de la protection des renseignements personnels. 3530, rue Queen, Rawdon (Québec). Courriel : shawn@signaturesb.com — Téléphone : 514-927-1340.</p>
+      <h3>Ce que nous recueillons</h3>
+      <p>Par l'assistant Batiste : votre nom, votre courriel, votre numéro de téléphone, le terrain qui vous intéresse, votre type de projet, votre délai et la description que vous écrivez. Par la page : l'adresse de la page visitée et les paramètres de provenance (par exemple la campagne publicitaire). Seulement si vous acceptez les témoins : des identifiants de mesure Meta.</p>
+      <h3>Pourquoi</h3>
+      <p>Traiter votre demande de renseignements sur un terrain, vous recontacter et assurer le suivi. Avec votre consentement, mesurer l'efficacité de nos publicités.</p>
+      <h3>Qui reçoit vos renseignements</h3>
+      <p>Signature SB Groupe Immobilier. Nos outils techniques : Batiste fonctionne avec un modèle d'intelligence artificielle (Anthropic), l'alerte de votre demande est transmise par Brevo, et le service est hébergé chez Cloudflare et GitHub. Les questions libres et les messages nécessaires à la réponse sont transmis à Anthropic. Vos coordonnées sont également conservées dans notre carnet de contacts Brevo pour le suivi de votre demande. Google fournit les polices de caractères affichées sur le site. Certains de ces fournisseurs peuvent traiter ou conserver des données à l'extérieur du Québec.</p>
+      <h3>Conservation et vos droits</h3>
+      <p>Votre demande est enregistrée dans un registre durable : nous conservons la référence et la date de votre demande, ainsi que son état de transmission, même si l'alerte échoue. Votre adresse IP sert à limiter les tentatives abusives; elle n'est pas inscrite au registre. Vos renseignements sont conservés le temps nécessaire au suivi de votre demande. Vous pouvez demander l'accès à vos renseignements, leur rectification ou leur retrait en écrivant à shawn@signaturesb.com.</p>
+      <h3>Témoins de mesure</h3>
+      <p>Les témoins de mesure Meta ne sont activés qu'après votre acceptation. Si vous les acceptez, Meta reçoit des informations sur votre visite et la confirmation de votre demande, notamment la page consultée, le terrain concerné et des identifiants de mesure. Vous pouvez refuser ces témoins et continuer à utiliser le site et Batiste. La réinitialisation de votre choix arrête les mesures futures jusqu'à une nouvelle acceptation. Pour demander le retrait de renseignements déjà transmis, écrivez à shawn@signaturesb.com. <button type="button" class="sb-policy-link" id="sb-consent-reset">Réinitialiser mon choix de témoins</button></p>
+    </div>
+  </div>
+<script>
 var AVATAR_SRC = (document.querySelector("[data-open-chat] img") || {}).src || "";
 var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC) _pa.src = AVATAR_SRC;
 
@@ -457,16 +492,26 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         var data = {};
         try { var saved = window.sessionStorage.getItem("sb_attribution"); if(saved) data = JSON.parse(saved) || {}; } catch(e) {}
         var params = new URLSearchParams(window.location.search);
-        keys.forEach(function(k){ var v = params.get(k); if(v) data[k] = v.slice(0,500); });
-        if(!data.pageUrl) data.pageUrl = window.location.href.slice(0,1000);
+        if(!window.sbHasConsent()){ delete data.fbclid; delete data.gclid; }
+        keys.forEach(function(k){
+          if((k === "fbclid" || k === "gclid") && !window.sbHasConsent()) return;
+          var v = params.get(k); if(v) data[k] = v.slice(0,500);
+        });
+        data.pageUrl = window.location.href.split(/[?#]/)[0].slice(0,1000);
         if(!data.landingPage) data.landingPage = window.location.pathname;
         if(!data.referrer && document.referrer) data.referrer = document.referrer.slice(0,1000);
+        if(data.referrer) data.referrer = String(data.referrer).split(/[?#]/)[0];
         try { window.sessionStorage.setItem("sb_attribution", JSON.stringify(data)); } catch(e) {}
         return data;
       }
       function newLeadId(){
         if(window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
-        return "lead-" + Date.now() + "-" + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2);
+        var bytes = new Uint8Array(16);
+        if(window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(bytes);
+        else for(var j=0;j<16;j++) bytes[j] = Math.floor(Math.random()*256);
+        bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
+        var hex = Array.from(bytes, function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+        return hex.slice(0,8)+"-"+hex.slice(8,12)+"-"+hex.slice(12,16)+"-"+hex.slice(16,20)+"-"+hex.slice(20);
       }
 
       function factualAnswer(raw){
@@ -760,7 +805,11 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         msgsEl.appendChild(card); scrollBottom();
       }
       function buildLeadPayload(){
-        if(leadPayload) return leadPayload;
+        if(leadPayload){
+          if(!window.sbHasConsent()){ leadPayload.source.fbclid=""; leadPayload.source.fbp=""; leadPayload.source.gclid=""; }
+          return leadPayload;
+        }
+        leadAttribution = captureAttribution();
         var id = newLeadId();
         leadPayload = {
           leadId: id,
@@ -783,12 +832,37 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
             utmCampaign: leadAttribution.utm_campaign || "",
             utmContent: leadAttribution.utm_content || "",
             utmTerm: leadAttribution.utm_term || "",
-            fbclid: leadAttribution.fbclid || "",
-            fbp: (document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/) || [])[1] || "",
-            gclid: leadAttribution.gclid || ""
+            fbclid: window.sbHasConsent() ? (leadAttribution.fbclid || "") : "",
+            fbp: window.sbHasConsent() ? ((document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/) || [])[1] || "") : "",
+            gclid: window.sbHasConsent() ? (leadAttribution.gclid || "") : ""
           }
         };
         return leadPayload;
+      }
+      var sentLeadEvents = new Set();
+      var LEAD_EVENTS_KEY = "sb-stcalixte-lead-events";
+      function trackLeadOnce(payload){
+        if(!window.fbq || !window.sbPixelStarted || !window.sbHasConsent()) return;
+        var id = payload.leadId;
+        try{
+          var stored = JSON.parse(window.sessionStorage.getItem(LEAD_EVENTS_KEY) || "[]");
+          if(Array.isArray(stored)) stored.forEach(function(v){ if(typeof v === "string") sentLeadEvents.add(v); });
+        }catch(e){}
+        if(sentLeadEvents.has(id)) return;
+        sentLeadEvents.add(id);
+        try{ window.sessionStorage.setItem(LEAD_EVENTS_KEY, JSON.stringify(Array.from(sentLeadEvents))); }catch(e){}
+        try{ window.fbq("track","Lead",{content_name:"Demande terrains Saint-Calixte",content_category:payload.terrain,currency:"CAD"},{eventID:id}); }catch(e){}
+      }
+      function leadFailureMessage(error){
+        var code = error && error.code;
+        var recorded = error && error.recorded === true;
+        if(code === "delivery_pending") return {button:"Vérifier la confirmation",text:"Ta demande est enregistrée. La confirmation de son suivi est en cours. Clique sur « Vérifier la confirmation » pour vérifier à nouveau avec la même référence."};
+        if(recorded && (code === "delivery_unknown" || code === "delivery_rejected")) return {button:"Vérifier la confirmation",text:"Ta demande est enregistrée, mais son suivi n'est pas encore confirmé. Clique sur « Vérifier la confirmation » pour vérifier à nouveau avec la même référence."};
+        if(code === "lead_id_conflict") return {button:"Vérifier la confirmation",text:"Cette référence correspond déjà à une autre demande. Pour éviter un doublon, nous ne renvoyons rien. Conserve cette référence pour le suivi."};
+        if(code === "rate_limited") return {button:"Réessayer plus tard",text:"Il y a trop de tentatives rapprochées. Attends au moins une minute avant de réessayer; la même référence sera conservée."};
+        if(["invalid_lead","invalid_lead_id","json","too_large"].indexOf(code) !== -1) return {button:"Réessayer plus tard",text:"La demande ne peut pas être validée pour le moment. Conserve ton résumé et cette référence pour le suivi."};
+        if(["delivery_not_configured","webhook_requires_migration","rate_limit_unavailable","origin"].indexOf(code) !== -1) return {button:"Réessayer plus tard",text:"L'envoi est momentanément indisponible. Réessaie plus tard; la même référence sera conservée."};
+        return {button:"Vérifier la confirmation",text:"La confirmation est momentanément indisponible. Ta demande peut déjà être enregistrée. Clique sur « Vérifier la confirmation » pour vérifier avec la même référence, sans créer une nouvelle demande."};
       }
       function submitLead(){
         if(leadSubmitting || step !== "summary") return;
@@ -805,12 +879,17 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           signal: controller ? controller.signal : undefined
         }).then(function(r){
           return r.json().catch(function(){ return {}; }).then(function(data){
-            if(!r.ok || !data.ok) throw new Error("lead");
+            if(!r.ok || !data || data.ok !== true || data.accepted !== true || data.notificationStatus !== "accepted" || data.leadId !== payload.leadId){
+              var failure = new Error("lead");
+              failure.code = data && typeof data.error === "string" ? data.error : "confirmation_unavailable";
+              failure.recorded = !!(data && data.recorded === true);
+              throw failure;
+            }
             return data;
           });
         }).then(function(){
           if(timeout) window.clearTimeout(timeout);
-          if(window.fbq && window.sbPixelStarted){ (async function(){ try{ var _h = async function(s){ var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(function(x){ return x.toString(16).padStart(2, "0"); }).join(""); }; var _em = (payload.email || "").trim().toLowerCase(); var _ph = (payload.phone || "").replace(/\D/g, ""); if(_ph.length === 10) _ph = "1" + _ph; var _nm = (payload.name || "").trim().toLowerCase().split(/\s+/); var _ud = {}; if(_em) _ud.em = await _h(_em); if(_ph) _ud.ph = await _h(_ph); if(_nm[0]) _ud.fn = await _h(_nm[0]); if(_nm.length > 1) _ud.ln = await _h(_nm.slice(1).join(" ")); if(Object.keys(_ud).length) fbq("init", "1125949153352183", _ud); }catch(e){} try{ fbq("track","Lead",{content_name:"Demande terrains Saint-Calixte", content_category: payload.terrain, currency:"CAD"}, {eventID: payload.leadId}); }catch(e){} })(); }
+          trackLeadOnce(payload);
           leadSubmitting = false;
           var card = document.getElementById("summary-card");
           if(card) card.remove();
@@ -829,12 +908,13 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
             b.addEventListener("click", function(){ startFlow(null); });
             wrap.appendChild(b); msgsEl.appendChild(wrap); scrollBottom();
           }, 700);
-        }).catch(function(){
+        }).catch(function(error){
           if(timeout) window.clearTimeout(timeout);
           leadSubmitting = false;
+          var feedback = leadFailureMessage(error);
           var retryBtn = msgsEl.querySelector(".btn-send");
-          if(retryBtn){ retryBtn.disabled = false; retryBtn.textContent = "Réessayer l'envoi"; }
-          botSay("L'envoi n'a pas fonctionné — ta demande n'est pas transmise. Vérifie ta connexion, puis clique sur « Réessayer l'envoi » dans le résumé.");
+          if(retryBtn){ retryBtn.disabled = false; retryBtn.textContent = feedback.button; }
+          botSay(feedback.text + " Référence de ta demande : " + payload.leadId + ".");
         });
       }
 
@@ -959,47 +1039,29 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         var bar = document.getElementById('sb-consent');
         function choice(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
         function set(v){ try{ localStorage.setItem(KEY, v); }catch(e){} if(bar) bar.hidden = true; if(v === 'oui' && window.sbStartPixel) window.sbStartPixel(); }
-        if(bar && !choice()) bar.hidden = false;
+        if(bar && choice() !== 'oui' && choice() !== 'non') bar.hidden = false;
         var y = document.getElementById('sb-consent-yes'), n = document.getElementById('sb-consent-no');
         if(y) y.addEventListener('click', function(){ set('oui'); });
         if(n) n.addEventListener('click', function(){ set('non'); });
         var modal = document.getElementById('sb-policy');
         function openP(){ if(modal) modal.hidden = false; }
         function closeP(){ if(modal) modal.hidden = true; }
-        ['sb-policy-open', 'sb-policy-open-2'].forEach(function(id){ var b = document.getElementById(id); if(b) b.addEventListener('click', openP); });
+        ['sb-policy-open', 'sb-policy-open-2', 'sb-policy-open-3'].forEach(function(id){ var b = document.getElementById(id); if(b) b.addEventListener('click', openP); });
         var c = document.getElementById('sb-policy-close'); if(c) c.addEventListener('click', closeP);
         if(modal) modal.addEventListener('click', function(ev){ if(ev.target === modal) closeP(); });
         var r = document.getElementById('sb-consent-reset');
-        if(r) r.addEventListener('click', function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); });
+        if(r) r.addEventListener('click', function(){
+          window.sbPixelStarted = false;
+          try{ if(window.fbq) fbq('consent', 'revoke'); }catch(e){}
+          try{ localStorage.removeItem(KEY); window.sessionStorage.removeItem('sb_attribution'); window.sessionStorage.removeItem(LEAD_EVENTS_KEY); }catch(e){}
+          ['_fbp','_fbc'].forEach(function(name){
+            document.cookie = name + '=; Max-Age=0; path=/';
+            document.cookie = name + '=; Max-Age=0; path=/; domain=' + window.location.hostname;
+          });
+          location.reload();
+        });
       })();
     })();
     </script>
-  
-  <div class="sb-consent" id="sb-consent" hidden>
-    <p class="txt">Nous utilisons des témoins de mesure (Meta) pour améliorer nos publicités. Vous pouvez refuser : le site et Batiste restent pleinement utilisables.</p>
-    <div class="acts">
-      <button type="button" class="sb-btn sb-btn-primary" id="sb-consent-yes">Accepter</button>
-      <button type="button" class="sb-btn sb-btn-ghost" id="sb-consent-no">Refuser</button>
-      <button type="button" class="sb-policy-link" id="sb-policy-open-2">Confidentialité</button>
-    </div>
-  </div>
-  <div class="sb-modal" id="sb-policy" hidden>
-    <div class="sb-modal-card" role="dialog" aria-modal="true" aria-labelledby="sb-policy-title">
-      <button type="button" class="sb-modal-x" id="sb-policy-close" aria-label="Fermer la politique de confidentialité">&times;</button>
-      <h2 id="sb-policy-title">Politique de confidentialité</h2>
-      <h3>Responsable</h3>
-      <p>Signature SB Groupe Immobilier — Shawn Barrette, courtier immobilier et responsable de la protection des renseignements personnels. 3530, rue Queen, Rawdon (Québec). Courriel : shawn@signaturesb.com — Téléphone : 514-927-1340.</p>
-      <h3>Ce que nous recueillons</h3>
-      <p>Par l'assistant Batiste : votre nom, votre courriel, votre numéro de téléphone, le terrain qui vous intéresse, votre type de projet, votre délai et la description que vous écrivez. Par la page : l'adresse de la page visitée et les paramètres de provenance (par exemple la campagne publicitaire). Seulement si vous acceptez les témoins : des identifiants de mesure Meta.</p>
-      <h3>Pourquoi</h3>
-      <p>Traiter votre demande de renseignements sur un terrain, vous recontacter et assurer le suivi. Avec votre consentement, mesurer l'efficacité de nos publicités.</p>
-      <h3>Qui reçoit vos renseignements</h3>
-      <p>Signature SB Groupe Immobilier. Nos outils techniques : Batiste fonctionne avec un modèle d'intelligence artificielle (Anthropic), l'alerte de votre demande est transmise par Brevo, et le service est hébergé chez Cloudflare et GitHub. Certains de ces fournisseurs peuvent traiter ou conserver des données à l'extérieur du Québec.</p>
-      <h3>Conservation et vos droits</h3>
-      <p>Vos renseignements sont conservés le temps nécessaire au suivi de votre demande, puis détruits ou anonymisés. Vous pouvez demander l'accès à vos renseignements, leur rectification ou le retrait de votre consentement en écrivant à shawn@signaturesb.com.</p>
-      <h3>Témoins de mesure</h3>
-      <p>Les témoins de mesure Meta ne sont activés qu'après votre acceptation. <button type="button" class="sb-policy-link" id="sb-consent-reset">Réinitialiser mon choix de témoins</button></p>
-    </div>
-  </div>
 </body>
 </html>
