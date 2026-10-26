@@ -416,7 +416,7 @@
       <span class="fab-txt"><b>Batiste</b><span>Pose ta demande ici</span></span>
     </button>
 
-    <!-- CHAT BAPTISTE -->
+    <!-- CHAT BATISTE -->
     <div class="chat-overlay hidden" id="chat" role="dialog" aria-label="Discussion avec Batiste, assistant Signature SB">
       <button type="button" class="chat-backdrop" id="chat-backdrop" aria-label="Fermer la discussion"></button>
       <div class="chat-panel sb-rise">
@@ -580,7 +580,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           return "Oui — le terrain de la rue du Routier (98 888 $, 24 657 pi²) est bordé par le lac Raymond : vue imprenable et accès direct à l'eau, caractéristique officielle « Accès à l'eau » sur sa fiche. C'est le seul des 4 en bord de l'eau — et il n'y en a qu'un seul disponible.";
         }
         if(q.indexOf("lac")>-1||q.indexOf("siesta")>-1||q.indexOf("eau")>-1){
-          return "Deux terrains touchent à l'eau : la rue du Routier (98 888 $, 24 657 pi²) est bordée par le lac Raymond — vue imprenable, accès direct à l'eau. Et la rue Vercingétorix (77 777 $, 38 577 pi²) donne accès au Lac Siesta.";
+          return "Un seul terrain est en bord de l'eau : la rue du Routier (98 888 $, 24 657 pi²) est bordée par le lac Raymond — vue imprenable, accès direct à l'eau. La rue Vercingétorix (77 777 $, 38 577 pi²) donne accès au Lac Siesta — sans être au bord de l'eau.";
         }
         if(q.indexOf("saint-lin")>-1||q.indexOf("saint lin")>-1||q.indexOf("distance")>-1||q.indexOf("loin")>-1){
           return "Les 4 terrains sont à Saint-Calixte, à 10 minutes de Saint-Lin, dans Lanaudière.";
@@ -589,7 +589,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           return "Le zonage est résidentiel sur les 4 lots. La forme et la taille du lot décident du modèle de maison qui y rentre bien — dis-moi ton projet et je te dirai lequel convient le mieux.";
         }
         if(q.indexOf("service")>-1||q.indexOf("aqueduc")>-1||q.indexOf("égout")>-1||q.indexOf("egout")>-1){
-          return "Il n'y a aucun service municipal sur ces lots : ça fonctionne avec un puits et une installation septique. L'étude de sol déjà faite dit quel système installer, sans surprise.";
+          return "Il n'y a aucun service municipal sur ces lots : ça fonctionne avec un puits et une installation septique. L'étude de sol déjà faite dit quel système installer pour chaque lot.";
         }
         if(q.indexOf("disponib")>-1||q.indexOf("reste")>-1||q.indexOf("combien de terrain")>-1){
           return "Il en reste exactement 4 — c'est toute l'offre. Quand un terrain est vendu, il disparaît de la page. Premier arrivé, premier servi.";
@@ -829,6 +829,13 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           if(!window.sbHasConsent()){ leadPayload.source.fbclid=""; leadPayload.source.fbp=""; leadPayload.source.gclid=""; }
           return leadPayload;
         }
+        var storedPayload = null;
+        try { storedPayload = JSON.parse(window.sessionStorage.getItem("sb-stcalixte-lead-payload") || "null"); } catch(e) {}
+        if(storedPayload && storedPayload.terrain === draft.terrain && storedPayload.email === draft.email && storedPayload.phone === draft.phone){
+          leadPayload = storedPayload;
+          if(!window.sbHasConsent()){ leadPayload.source.fbclid=""; leadPayload.source.fbp=""; leadPayload.source.gclid=""; }
+          return leadPayload;
+        }
         leadAttribution = captureAttribution();
         var id = newLeadId();
         leadPayload = {
@@ -857,6 +864,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
             gclid: window.sbHasConsent() ? (leadAttribution.gclid || "") : ""
           }
         };
+        try { window.sessionStorage.setItem("sb-stcalixte-lead-payload", JSON.stringify(leadPayload)); } catch(e) {}
         return leadPayload;
       }
       var sentLeadEvents = new Set();
@@ -910,6 +918,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         }).then(function(){
           if(timeout) window.clearTimeout(timeout);
           trackLeadOnce(payload);
+          try { window.sessionStorage.removeItem("sb-stcalixte-lead-payload"); } catch(e) {}
           leadSubmitting = false;
           var card = document.getElementById("summary-card");
           if(card) card.remove();
