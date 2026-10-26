@@ -642,6 +642,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         else if(step==="project") opts = PROJECT_OPTIONS;
         else if(step==="timeline") opts = TIMELINE_OPTIONS;
         else if(step==="description") opts = ["Je passe"];
+        else if(step==="consent") opts = ["Oui, j'accepte", "Non, je refuse"];
         optsEl.innerHTML = "";
         if(opts.length===0 || isBusy()){ optsEl.classList.add("hidden"); return; }
         opts.forEach(function(o){
@@ -803,6 +804,27 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         else if(step==="project") chooseProject(value);
         else if(step==="timeline") chooseTimeline(value);
         else if(step==="description"){ userSay(value); step="name"; botSay("Ton nom ?"); }
+        else if(step==="consent") chooseConsent(value);
+      }
+
+      function consentRecorded(){
+        try{ return localStorage.getItem("sb-consent") !== null; }catch(e){ return true; }
+      }
+      function proceedToSummary(){
+        step="summary"; renderOptions();
+        botSay("Voici ta demande — vérifie et envoie :", function(){ showSummary(); });
+      }
+      function chooseConsent(value){
+        userSay(value);
+        var bar = document.getElementById("sb-consent");
+        if(bar) bar.hidden = true;
+        if(value.indexOf("Oui")===0){
+          try{ localStorage.setItem("sb-consent","oui"); }catch(e){}
+          if(window.sbStartPixel) window.sbStartPixel();
+        } else {
+          try{ localStorage.setItem("sb-consent","non"); }catch(e){}
+        }
+        proceedToSummary();
       }
 
       function showSummary(){
@@ -1027,9 +1049,20 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         if(step==="phone"){
           userSay(text);
           if(!isValidPhone(text)){ botSay("Ce numéro semble incomplet — il me faut 10 chiffres. Réessaie ?"); return; }
-          draft.phone=text; step="summary"; renderOptions();
-          botSay("Voici ta demande — vérifie et envoie :", function(){ showSummary(); });
+          draft.phone=text;
+          if(!consentRecorded()){
+            step="consent"; renderOptions();
+            botSay("Avant d'envoyer : acceptes-tu les témoins de mesure (Meta) qui nous aident à améliorer nos publicités ? Tu peux refuser — ta demande partira quand même.");
+          } else {
+            proceedToSummary();
+          }
           return;
+        }
+        if(step==="consent"){
+          var cn = lower.normalize ? lower.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim() : lower.trim();
+          if(/^(oui|yes|ok|d'accord|j'accepte|accepte)/.test(cn)){ chooseConsent("Oui, j'accepte"); return; }
+          if(/^(non|no|je refuse|refuse)/.test(cn)){ chooseConsent("Non, je refuse"); return; }
+          userSay(text); botSay("Choisis « Oui, j'accepte » ou « Non, je refuse » ci-dessous — ta demande partira dans tous les cas."); return;
         }
         if(step==="documentation"){
           var dn = lower.normalize ? lower.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim() : lower.trim();
