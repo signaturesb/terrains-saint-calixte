@@ -184,15 +184,20 @@
         .sb-rise,.tdot,.caret{animation:none}
         html{scroll-behavior:auto}
       }
-    /* CORRECTIF SHAWN 2026-10-25 23 h 16 : panneau de chat épinglé à la largeur visible — le bouton rond d'envoi ne doit jamais sortir de l'écran (mobile / navigateur intégré). */
-      html,body{overflow-x:clip}
-      .chat-overlay{left:0;right:0;width:100dvw;max-width:100dvw;overflow:hidden}
-      .chat-panel{min-width:0;max-width:calc(100dvw - 1.5rem)}
-      .chat-head,.chat-msgs,.chat-options,.chat-form,.chat-notice{min-width:0;max-width:100%}
-      .msg-row,.msg-user{min-width:0;max-width:100%}
-      .chat-form input{flex:1 1 auto}
-      .chat-form .send{flex:0 0 auto}
-      @media(max-width:480px){.chat-head .pill{display:none}.chat-head{padding:.625rem .75rem}.chat-head .who .status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    /* CORRECTIF CADRAGE — verdict Codex 2026-10-25 23 h 31 (remplace la surcharge v9) : cause = zoom automatique iOS sur champ en 14 px; champ passé à 16 px, overlay épinglé au viewport visuel (raccord VisualViewport fondu dans le script principal), marges symétriques. */
+      .chat-overlay{--chat-gap:max(.75rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));inset:auto;left:var(--chat-vx, 0px);top:var(--chat-vy, 0px);width:var(--chat-vw, 100%);height:var(--chat-vh, 100%);max-width:none;padding:max(.75rem, env(safe-area-inset-top, 0px)) var(--chat-gap) max(.75rem, env(safe-area-inset-bottom, 0px));justify-content:center;overflow:hidden}
+      .chat-panel{width:100%;max-width:100%;min-width:0;min-height:0;margin:0;height:88vh;height:88dvh;max-height:100%}
+      .chat-head,.chat-msgs,.chat-options,.chat-form,.chat-notice,.msg-row,.msg-user{min-width:0;max-width:100%}
+      .chat-msgs{min-height:0;overflow:auto;overscroll-behavior:contain}
+      .chat-msgs > *{flex-shrink:0}
+      .bubble-bot,.bubble-user{min-width:0;max-width:82%;overflow-wrap:anywhere}
+      .bubble-bot{max-width:min(82%, calc(100% - 2.25rem))}
+      .chat-options{min-height:0;max-height:25%;flex-shrink:1;overflow-y:auto}
+      .chat-notice{flex-shrink:0}
+      .chat-form input{width:0;min-width:0;flex:1 1 0;font-size:max(16px, 1rem)}
+      .chat-form .send{flex:0 0 2.5rem;width:2.5rem;min-width:2.5rem;height:2.5rem}
+      @media (min-width:640px){.chat-panel{width:400px;height:620px}}
+@media(max-width:480px){.chat-head .pill{display:none}.chat-head{padding:.625rem .75rem}.chat-head .who .status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 
       .sb-consent{position:fixed;left:0;right:0;bottom:0;z-index:39;background:#fff;border-top:3px solid #aa0721;box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:.75rem 6rem .75rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
       .sb-consent[hidden]{display:none}
@@ -1062,6 +1067,27 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         });
       })();
     })();
-    </script>
+    
+  /* Raccord VisualViewport (verdict Codex 2026-10-25) : épingle le chat à la zone réellement visible, clavier iOS ouvert ou fermé. */
+  (() => {
+    const chatEl = document.getElementById("chat");
+    const vv = window.visualViewport;
+    if (!chatEl || !vv) return;
+    let frame = 0;
+    function syncVV() {
+      frame = 0;
+      chatEl.style.setProperty("--chat-vx", vv.offsetLeft + "px");
+      chatEl.style.setProperty("--chat-vy", vv.offsetTop + "px");
+      chatEl.style.setProperty("--chat-vw", vv.width + "px");
+      chatEl.style.setProperty("--chat-vh", vv.height + "px");
+    }
+    function scheduleVV() { if (!frame) frame = requestAnimationFrame(syncVV); }
+    vv.addEventListener("resize", scheduleVV);
+    vv.addEventListener("scroll", scheduleVV);
+    window.addEventListener("resize", scheduleVV);
+    window.addEventListener("pageshow", scheduleVV);
+    syncVV();
+  })();
+</script>
 </body>
 </html>
