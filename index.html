@@ -1277,38 +1277,5 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
     syncVV();
   })();
 </script>
-
-<script>
-/* Vedette dynamique (v17) : le terrain du parametre ?terrain= passe en vedette.
-   Sans parametre valide, la page reste exactement la v16. */
-(function(){
-  var LOTS = {
-    trembles:      {name:"Rue des Trembles",   img:"img/trembles.jpg",      prix:"58\u00a0888\u00a0$"},
-    denise:        {name:"Rue Denise",         img:"img/denise.jpg",        prix:"67\u00a0777\u00a0$"},
-    vercingetorix: {name:"Rue Vercing\u00e9torix", img:"img/vercingetorix.jpg", prix:"77\u00a0777\u00a0$"},
-    routier:       {name:"Rue du Routier",     img:"img/routier.jpg",       prix:"98\u00a0888\u00a0$"}
-  };
-  var slug = (new URLSearchParams(location.search).get("terrain") || "").toLowerCase();
-  var lot = LOTS[slug];
-  if(!lot) return;
-  var heroImg = document.querySelector(".hero img.photo");
-  if(heroImg){ heroImg.src = lot.img; heroImg.alt = "Terrain " + lot.name + ", Saint-Calixte"; }
-  var badge = document.querySelector(".hero .badge");
-  if(badge){ badge.textContent = "EN VEDETTE \u2014 " + lot.name.toUpperCase() + " \u00b7 " + lot.prix; }
-  var cardBtn = document.querySelector('.lot-card[data-terrain="' + lot.name + '"]');
-  if(cardBtn){
-    var article = cardBtn.closest("article.carte");
-    var grille = document.querySelector(".grille");
-    if(article && grille){
-      grille.querySelectorAll("article.carte.vedette").forEach(function(a){ a.classList.remove("vedette"); });
-      article.classList.add("vedette");
-      grille.insertBefore(article, grille.firstElementChild);
-    }
-    document.querySelectorAll("[data-open-chat]").forEach(function(el){
-      el.addEventListener("click", function(){ cardBtn.click(); });
-    });
-  }
-})();
-</script>
 </body>
 </html>
