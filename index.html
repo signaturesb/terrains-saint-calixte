@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>4 terrains à bâtir à Saint-Calixte — Dossier complet gratuit | Signature SB</title>
 <meta name="description" content="4 terrains à bâtir à Saint-Calixte, à partir de 58 888 $. Étude de sol incluse, prix au pied carré, coûts de puits et de septique. Recevez le dossier complet gratuit.">
 <style>
@@ -101,9 +101,9 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
 
 
       /* Floating Batiste button */
-      .fab{position:fixed;bottom:1.25rem;right:1rem;z-index:40;display:flex;align-items:center;gap:.625rem;background:var(--accent);color:#fff;border:0;border-radius:999px;padding:.625rem 1.25rem .625rem .625rem;box-shadow:0 10px 24px rgba(20,20,20,.28);transition:background .15s}
+      .fab{position:fixed;bottom:1.25rem;right:1rem;z-index:40;display:flex;align-items:center;gap:.625rem;background:#C8102E;background-color:#C8102E;-webkit-tap-highlight-color:transparent;color:#fff;border:0;border-radius:999px;padding:.625rem 1.25rem .625rem .625rem;box-shadow:0 10px 24px rgba(20,20,20,.28);transition:background .15s}
 
-      .fab:hover{background:var(--accent-dark)}
+      .fab:active{background:#9E0C24;background-color:#9E0C24}
 
       .fab img{height:2.5rem;width:2.5rem;border-radius:50%;border:2px solid #fff;object-fit:cover}
 
@@ -117,7 +117,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
       /* Proactive bubble */
       .proactive{position:fixed;bottom:6rem;right:1rem;z-index:40;width:calc(100vw - 2rem);max-width:20rem}
 
-      .proactive .card{position:relative;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:0 16px 32px rgba(20,20,20,.18)}
+      .proactive .card{position:relative;background:#fff;border:1px solid #E3DACB;border-radius:16px;padding:1rem;box-shadow:0 16px 32px rgba(20,20,20,.18)}
 
       .proactive .close{position:absolute;top:.5rem;right:.5rem;background:transparent;border:0;border-radius:50%;padding:.25rem;color:var(--dim)}
 
@@ -128,129 +128,62 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
       .hidden{display:none !important}
 
 
-      /* Chat */
-      .chat-overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center}
-
-      .chat-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);border:0;padding:0}
-
-      .chat-panel{position:relative;display:flex;flex-direction:column;width:calc(100% - 1.5rem);margin:.75rem;height:88dvh;background:#fff;box-shadow:0 24px 48px rgba(0,0,0,.35);overflow:hidden;border-radius:var(--radius);border:1px solid var(--border)}
-
+      .sr-only{position:absolute !important;width:1px !important;height:1px !important;padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;white-space:nowrap !important;border:0 !important}
+      /* Chat — TEMPLATE V2 (5 nov. 2026) : couleurs en dur, aucun var(), pensé pour les navigateurs intégrés (Facebook, iOS) */
+      .chat-overlay{position:fixed;inset:0;z-index:80;display:flex;align-items:stretch;justify-content:center;color-scheme:light}
+      .chat-overlay *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+      .chat-backdrop{position:absolute;inset:0;background:rgba(15,12,8,.55);border:0;padding:0}
+      .chat-panel{position:relative;display:flex;flex-direction:column;width:100%;height:100%;max-height:100%;background:#ffffff;background-color:#ffffff;overflow:hidden;border:0}
       @media(min-width:640px){
-        .chat-overlay{justify-content:flex-end}
-        .chat-panel{margin:1rem;height:620px;max-height:calc(100dvh - 2rem);width:400px;border-radius:var(--radius);border:1px solid var(--border)}
+        .chat-overlay{align-items:flex-end;justify-content:flex-end}
+        .chat-panel{margin:1rem;height:620px;max-height:calc(100dvh - 2rem);width:400px;border-radius:20px;border:1px solid #E3DACB;box-shadow:0 24px 48px rgba(15,12,8,.35)}
       }
-
-      .chat-head{display:flex;align-items:center;gap:.75rem;border-bottom:2px solid var(--accent);background:#fff;padding:.75rem 1rem;flex-shrink:0}
-
-      .chat-head img.avatar{height:2.75rem;width:2.75rem;border-radius:50%;border:2px solid var(--accent);object-fit:cover;flex-shrink:0}
-
+      .chat-head{display:flex;align-items:center;gap:.75rem;border-bottom:2px solid #C8102E;background:#ffffff;padding:.75rem 1rem;flex-shrink:0}
+      .chat-head img.avatar{height:2.75rem;width:2.75rem;border-radius:9999px;border:2px solid #C8102E;object-fit:cover;flex-shrink:0}
       .chat-head .who{min-width:0;flex:1}
-
-      .chat-head .who .name{margin:0;font-size:1.125rem;font-weight:700;line-height:1.25}
-
-      .chat-head .who .status{margin:0;display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:var(--dim)}
-
-      .dot-online{display:inline-block;height:.5rem;width:.5rem;border-radius:50%;background:var(--green)}
-
-      .chat-head .pill{flex-shrink:0;background:var(--accent);color:#fff;border-radius:999px;padding:.25rem .625rem;font-size:11px;font-weight:700;letter-spacing:.02em}
-
-      .chat-head .x{flex-shrink:0;background:transparent;border:0;border-radius:50%;padding:.5rem;color:var(--ink)}
-
-      .chat-head .x:hover{background:var(--surface2)}
-
-      .chat-msgs{flex:1;overflow-y:auto;background:var(--surface2);padding:1rem .75rem;display:flex;flex-direction:column;gap:.75rem}
-
-      .msg-row{display:flex;align-items:flex-end;gap:.5rem}
-
-      .msg-row img.mini{height:1.75rem;width:1.75rem;border-radius:50%;object-fit:cover;flex-shrink:0}
-
-      .bubble-bot{max-width:82%;background:#fff;border:1px solid var(--border);border-radius:1rem;border-bottom-left-radius:.25rem;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;box-shadow:0 1px 2px rgba(20,20,20,.06);white-space:pre-wrap;word-break:break-word}
-
-      .msg-user{display:flex;justify-content:flex-end}
-
-      .bubble-user{max-width:82%;background:var(--accent);color:#fff;border-radius:1rem;border-bottom-right-radius:.25rem;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;box-shadow:0 1px 2px rgba(20,20,20,.06);white-space:pre-wrap;word-break:break-word}
-
-      .typing-bubble{background:#fff;border:1px solid var(--border);border-radius:1rem;border-bottom-left-radius:.25rem;padding:.75rem .875rem;box-shadow:0 1px 2px rgba(20,20,20,.06)}
-
-      .caret{display:inline-block;height:.875rem;width:2px;background:var(--accent);margin-left:2px;transform:translateY(2px);animation:sb-blink 1.6s ease infinite}
-
-      .summary-card{margin-left:2.25rem;background:#fff;border:2px solid var(--gold);border-radius:1rem;padding:1rem;box-shadow:0 1px 3px rgba(20,20,20,.08)}
-
-      .summary-card h4{margin:0;font-size:1rem;font-weight:700}
-
-      .summary-card dl{margin:.5rem 0 0;display:flex;flex-direction:column;gap:.375rem;font-size:.875rem}
-
-      .summary-card .row{display:flex;gap:.5rem}
-
-      .summary-card dt{width:6rem;flex-shrink:0;font-weight:600;color:var(--dim)}
-
-      .summary-card dd{margin:0;word-break:break-word}
-
-      .btn-send{margin-top:1rem;width:100%;background:var(--green);color:#fff;border:0;border-radius:999px;padding:.75rem 1rem;font-size:.875rem;font-weight:700;transition:background .15s}
-
-      .btn-send:hover{background:var(--green-dark)}
-
-      .btn-send:disabled{opacity:.6;cursor:default}
-
-      .btn-again{margin-left:2.25rem;background:#fff;border:1px solid var(--gold);color:var(--ink);border-radius:999px;padding:.5rem 1rem;font-size:.875rem;font-weight:600}
-
-      .btn-again:hover{background:var(--surface2)}
-
-      .chat-options{display:flex;flex-wrap:wrap;gap:.5rem;border-top:1px solid var(--border);background:#fff;padding:.75rem;flex-shrink:0}
-
-      .opt-btn{background:#fff;border:2px solid var(--accent);color:var(--accent);border-radius:999px;padding:.5rem .875rem;font-size:.875rem;font-weight:600;transition:all .12s}
-
-      .opt-btn:hover{background:var(--accent);color:#fff}
-
-      .chat-form{display:flex;align-items:center;gap:.5rem;border-top:1px solid var(--border);background:#fff;padding:.75rem;flex-shrink:0}
-
-      .chat-form input{min-width:0;flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:.625rem 1rem;font-size:.875rem;color:var(--ink);outline:none}
-
-      .chat-form input::placeholder{color:#8a8478}
-
-      .chat-form input:focus{border-color:var(--accent)}
-
-      .chat-form .send{height:2.5rem;width:2.5rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:0;border-radius:50%;transition:background .15s}
-
-      .chat-form .send:hover{background:var(--accent-dark)}
-
-      .chat-form .send:disabled{opacity:.4;cursor:default}
-
-      .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-
-      @keyframes sb-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-      .sb-rise{animation:sb-rise .35s ease both}
-
-      @media (prefers-reduced-motion: reduce){
-        .sb-rise,.tdot,.caret{animation:none}
-        html{scroll-behavior:auto}
-      }
-
-    /* CORRECTIF CADRAGE — verdict Codex 2026-10-25 23 h 31 (remplace la surcharge v9) : cause = zoom automatique iOS sur champ en 14 px; champ passé à 16 px, overlay épinglé au viewport visuel (raccord VisualViewport fondu dans le script principal), marges symétriques. */
-      .chat-overlay{--chat-gap:max(.75rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));inset:auto;left:var(--chat-vx, 0px);top:var(--chat-vy, 0px);width:var(--chat-vw, 100%);height:var(--chat-vh, 100%);max-width:none;padding:max(.75rem, env(safe-area-inset-top, 0px)) var(--chat-gap) max(.75rem, env(safe-area-inset-bottom, 0px));justify-content:center;overflow:hidden}
-
-      .chat-panel{width:100%;max-width:100%;min-width:0;min-height:0;margin:0;height:88vh;height:88dvh;max-height:100%}
-
-      .chat-head,.chat-msgs,.chat-options,.chat-form,.chat-notice,.msg-row,.msg-user{min-width:0;max-width:100%}
-
-      .chat-msgs{min-height:0;overflow:auto;overscroll-behavior:contain}
-
+      .chat-head .who .name{margin:0;font-size:1.125rem;font-weight:700;line-height:1.25;color:#17130E}
+      .chat-head .who .status{margin:0;display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#6B645A}
+      .dot-online{display:inline-block;height:.5rem;width:.5rem;border-radius:9999px;background:#1E7B34;background-color:#1E7B34}
+      .chat-head .pill{flex-shrink:0;background:#C8102E;background-color:#C8102E;color:#ffffff;border-radius:999px;padding:.25rem .625rem;font-size:11px;font-weight:700;letter-spacing:.02em}
+      .chat-head .x{flex-shrink:0;background:transparent;border:0;border-radius:9999px;padding:.5rem;color:#17130E;cursor:pointer}
+      .chat-head .x:active{background:#F6F1EA;background-color:#F6F1EA}
+      .chat-msgs{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;background:#F6F1EA;background-color:#F6F1EA;padding:1rem .75rem;display:flex;flex-direction:column;gap:.75rem;overscroll-behavior:contain}
       .chat-msgs > *{flex-shrink:0}
-
-      .bubble-bot,.bubble-user{min-width:0;max-width:82%;overflow-wrap:anywhere}
-
-      .bubble-bot{max-width:min(82%, calc(100% - 2.25rem))}
-
-      .chat-options{min-height:0;max-height:25%;flex-shrink:1;overflow-y:auto}
-
+      .msg-row{display:flex;align-items:flex-end;gap:.5rem;min-width:0;max-width:100%}
+      .msg-row img.mini{height:1.75rem;width:1.75rem;border-radius:9999px;object-fit:cover;flex-shrink:0}
+      .msg-user{display:flex;justify-content:flex-end;min-width:0;max-width:100%}
+      .bubble-bot{max-width:min(82%, calc(100% - 2.25rem));background:#ffffff;background-color:#ffffff;color:#17130E;border:1px solid #E3DACB;border-radius:1rem;border-bottom-left-radius:.25rem;padding:.625rem .875rem;font-size:.9rem;line-height:1.55;box-shadow:0 1px 2px rgba(20,20,20,.06);white-space:pre-wrap;overflow-wrap:anywhere}
+      .bubble-user{max-width:82%;background:#C8102E;background-color:#C8102E;color:#ffffff;border-radius:1rem;border-bottom-right-radius:.25rem;padding:.625rem .875rem;font-size:.9rem;line-height:1.55;box-shadow:0 1px 2px rgba(20,20,20,.12);white-space:pre-wrap;overflow-wrap:anywhere}
+      .typing-bubble{background:#ffffff;background-color:#ffffff;border:1px solid #E3DACB;border-radius:1rem;border-bottom-left-radius:.25rem;padding:.75rem .875rem;box-shadow:0 1px 2px rgba(20,20,20,.06);color:#C8102E}
+      .tdot{display:inline-block;animation:sb-blink 1.2s infinite}
+      .tdot:nth-child(2){animation-delay:.18s}
+      .tdot:nth-child(3){animation-delay:.36s}
+      @keyframes sb-blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+      .caret{display:inline-block;width:2px;height:1em;background:#C8102E;vertical-align:-0.15em;margin-left:1px}
+      .summary-card{margin-left:2.25rem;background:#ffffff;background-color:#ffffff;border:2px solid #C9A227;border-radius:1rem;padding:1rem;box-shadow:0 1px 3px rgba(20,20,20,.08)}
+      .summary-card h4{margin:0;font-size:1rem;font-weight:700;color:#17130E}
+      .summary-card dl{margin:.5rem 0 0;display:flex;flex-direction:column;gap:.375rem;font-size:.875rem;color:#17130E}
+      .summary-card .row{display:flex;gap:.5rem}
+      .summary-card dt{width:6rem;flex-shrink:0;font-weight:600;color:#6B645A}
+      .summary-card dd{margin:0;overflow-wrap:anywhere}
+      .btn-send{margin-top:1rem;width:100%;background:#1E7B34;background-color:#1E7B34;color:#ffffff;border:0;border-radius:999px;padding:.8rem 1rem;font-size:.95rem;font-weight:700;cursor:pointer}
+      .btn-send:active{background:#166128;background-color:#166128}
+      .btn-send:disabled{opacity:.55;cursor:default}
+      .btn-again{display:inline-block;background:#ffffff;background-color:#ffffff;border:2px solid #C8102E;color:#C8102E;border-radius:999px;padding:.6rem 1.1rem;font-size:.9rem;font-weight:700;cursor:pointer;margin-left:2.25rem}
+      .btn-again:active{background:#C8102E;background-color:#C8102E;color:#ffffff}
       .chat-notice{flex-shrink:0}
-
-      .chat-form input{width:0;min-width:0;flex:1 1 0;font-size:max(16px, 1rem)}
-
-      .chat-form .send{flex:0 0 2.5rem;width:2.5rem;min-width:2.5rem;height:2.5rem}
-
-      @media (min-width:640px){.chat-panel{width:400px;height:620px}}
+      .chat-options{display:flex;flex-wrap:wrap;gap:.5rem;border-top:1px solid #E3DACB;background:#ffffff;background-color:#ffffff;padding:.75rem;flex-shrink:0;max-height:30%;overflow-y:auto}
+      .opt-btn{background:#ffffff;background-color:#ffffff;border:2px solid #C8102E;color:#C8102E;border-radius:999px;padding:.55rem .95rem;font-size:.9rem;font-weight:600;cursor:pointer}
+      .opt-btn:active{background:#C8102E;background-color:#C8102E;color:#ffffff}
+      .chat-form{display:flex;align-items:center;gap:.5rem;border-top:1px solid #E3DACB;background:#ffffff;background-color:#ffffff;padding:.75rem;padding-bottom:calc(.75rem + env(safe-area-inset-bottom, 0px));flex-shrink:0}
+      .chat-form input{min-width:0;width:0;flex:1 1 0;background:#F6F1EA;background-color:#F6F1EA;border:1px solid #E3DACB;border-radius:999px;padding:.7rem 1rem;font-size:16px;color:#17130E;outline:none}
+      .chat-form input::placeholder{color:#8A8478}
+      .chat-form input:focus{border-color:#C8102E}
+      .chat-form .send{height:2.6rem;width:2.6rem;min-width:2.6rem;flex:0 0 2.6rem;display:flex;align-items:center;justify-content:center;background:#C8102E;background-color:#C8102E;color:#ffffff;border:0;border-radius:9999px;cursor:pointer}
+      .chat-form .send:active{background:#9E0C24;background-color:#9E0C24}
+      .chat-form .send:disabled{opacity:.35;cursor:default}
+      .lot-card{-webkit-tap-highlight-color:transparent}
+      .lot-card:active{outline:3px solid #C8102E;outline-offset:-3px}
 
       /* Petite hauteur VISIBLE (clavier inclus) : garder la saisie et la fermeture accessibles. */
       .chat-overlay.chat-compact-height .chat-panel{height:100%;max-height:100%}
@@ -299,7 +232,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
 
       .sb-policy-link{background:none;border:0;padding:0;color:#aa0721;font-weight:700;cursor:pointer;text-decoration:underline;font-size:.85rem;font-family:inherit}
 
-      .chat-notice{margin:0;padding:.5rem .9rem;font-size:.78rem;line-height:1.4;color:#444;background:#faf7f2;border-bottom:1px solid var(--border)}
+      .chat-notice{margin:0;padding:.5rem .9rem;font-size:.78rem;line-height:1.4;color:#444;background:#faf7f2;border-bottom:1px solid #E3DACB}
 
       .sb-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:1rem}
 
@@ -503,7 +436,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
         <button type="button" class="close" id="proactive-close" aria-label="Ignorer le message de Batiste">
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
-        <p><strong>Batiste · Signature SB</strong><br />Salut ! Moi, c'est Batiste, l'assistant de Signature SB. Tu regardes pour un terrain à Saint-Calixte ? Il n'en reste que 4 — je peux prendre ta demande en 30 secondes.</p>
+        <p><strong>Batiste · Signature SB</strong><br />Salut ! C'est moi, Batiste. Il reste quatre terrains à Saint-Calixte — je peux prendre ta demande en 30 secondes.</p>
         <button type="button" class="btn-red" data-open-chat>Discuter avec Batiste</button>
       </div>
     </div>
@@ -638,6 +571,9 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
       function factualAnswer(raw){
         var q = raw.toLowerCase();
         var qn = q.normalize ? q.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : q;
+        if(qn.indexOf("garantie")>-1){
+          return "Oui — la vente de ces terrains se fait avec la garantie légale.";
+        }
         if(qn.indexOf("taxes municipales")>-1 || qn.indexOf("taxe municipale")>-1){
           return "Je n'ai pas le montant exact des taxes municipales pour ces terrains. Signature SB te le confirmera lors de son appel.";
         }
@@ -736,7 +672,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
       function isBusy(){ return chatPending || leadSubmitting || busyFlag || queue.length > 0 || isTyping || !!msgsEl.querySelector(".bubble-bot[data-done='0']"); }
 
       function renderOptions(){
-        sendEl.disabled = !inputEl.value.trim() || isBusy();
+        sendEl.disabled = !inputEl.value.trim();
         var opts = [];
         if(step==="terrain") opts = LOTS.map(function(l){return l.street;}).concat(["Les 4"]);
         else if(step==="documentation") opts = DOC_OPTIONS;
@@ -747,7 +683,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         else if(step==="description") opts = ["Je passe"];
         else if(step==="consent") opts = ["Oui, j'accepte", "Non, je refuse"];
         optsEl.innerHTML = "";
-        if(opts.length===0 || isBusy()){ optsEl.classList.add("hidden"); return; }
+        if(opts.length===0){ optsEl.classList.add("hidden"); return; }
         opts.forEach(function(o){
           var b = document.createElement("button");
           b.type="button"; b.className="opt-btn"; b.textContent=o;
@@ -780,6 +716,27 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         if(r) r.remove();
       }
 
+      var typingState = null;
+      function renderBotInstant(text){
+        var row = document.createElement("div");
+        row.className="msg-row";
+        var img = document.createElement("img");
+        img.className="mini"; img.src=AVATAR_SRC; img.alt=""; img.setAttribute("aria-hidden","true");
+        var bubble = document.createElement("div");
+        bubble.className="bubble-bot"; bubble.setAttribute("data-done","1"); bubble.textContent = text;
+        row.appendChild(img); row.appendChild(bubble);
+        msgsEl.appendChild(row); scrollBottom();
+      }
+      function flushBot(){
+        if(typingState){
+          var ts = typingState; typingState = null;
+          ts.bubble.textContent = ts.full; ts.bubble.setAttribute("data-done","1");
+          if(ts.after) ts.after();
+        }
+        while(queue.length){ var n = queue.shift(); renderBotInstant(n.text); if(n.after) n.after(); }
+        busyFlag = false; hideTyping();
+        renderOptions(); updatePlaceholder();
+      }
       function processQueue(){
         if(busyFlag) return;
         var next = queue.shift();
@@ -797,15 +754,18 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           row.appendChild(img); row.appendChild(bubble);
           msgsEl.appendChild(row); scrollBottom();
           var full = next.text, i = 0;
+          var myState = {bubble:bubble, full:full, after:next.after};
+          typingState = myState;
           (function tick(){
-            i = Math.min(full.length, i+40);
+            if(typingState !== myState) return;
+            i = Math.min(full.length, i+60);
             bubble.textContent = full.slice(0,i);
             if(i < full.length){ bubble.innerHTML = esc(full.slice(0,i)) + '<span class="caret" aria-hidden="true"></span>'; }
             scrollBottom();
             if(i < full.length){ later(tick, 5); }
-            else { bubble.setAttribute("data-done","1"); busyFlag=false; if(next.after) next.after(); processQueue(); }
+            else { bubble.setAttribute("data-done","1"); typingState = null; busyFlag=false; if(next.after) next.after(); processQueue(); }
           })();
-        }, 90);
+        }, 60);
       }
       function botSay(text, after){ queue.push({text:text, after:after}); processQueue(); }
       function userSay(text){
@@ -847,7 +807,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         showTyping();
         var controller = window.AbortController ? new AbortController() : null;
         chatController = controller;
-        var timeout = controller ? window.setTimeout(function(){ controller.abort(); }, 30000) : null;
+        var timeout = controller ? window.setTimeout(function(){ controller.abort(); }, 12000) : null;
         fetch(BATISTE_API + "/chat", {
           method:"POST",
           headers:{"Content-Type":"application/json"},
@@ -932,7 +892,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         }
       }
       function onOption(value){
-        if(isBusy()) return;
+        flushBot();
         if(step==="terrain") chooseTerrain(value);
         else if(step==="documentation") chooseDocumentation(value);
         else if(step==="project") chooseProject(value);
@@ -1146,11 +1106,11 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           draft.terrain = preset;
           step="name";
           botSay(preset==="Rue du Routier"
-            ? "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 Rue du Routier — bord de l'eau, lac Raymond. Un seul disponible. Avant le dossier, je prends tes coordonnées. Ton nom ?"
-            : "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 La "+preset+" — un seul disponible. Avant le dossier, je prends tes coordonnées. Ton nom ?");
+            ? "Salut ! C'est moi, Batiste. Rue du Routier — bord de l'eau, lac Raymond, il en reste un seul. Donne-moi ton nom."
+            : "Salut ! C'est moi, Batiste. La "+preset+" — un seul disponible. Donne-moi ton nom.");
         } else {
           step="name";
-          botSay("Salut ! Moi, c'est Batiste, l'assistant de Signature SB. Tu regardes pour un terrain à Saint-Calixte ? Il reste 4 terrains. Avant de choisir, je prends tes coordonnées. Ton nom ?");
+          botSay("Salut ! C'est moi, Batiste. Il reste quatre terrains à Saint-Calixte. Donne-moi ton nom.");
         }
         started=true; renderOptions(); updatePlaceholder();
       }
@@ -1188,13 +1148,15 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         if(chatEl.classList.contains("hidden")) proactiveEl.classList.remove("hidden");
       }, 3500);
 
-      inputEl.addEventListener("input", function(){ sendEl.disabled = !inputEl.value.trim() || isBusy(); });
+      inputEl.addEventListener("input", function(){ sendEl.disabled = !inputEl.value.trim(); });
       formEl.addEventListener("submit", function(e){
         e.preventDefault();
         var text = inputEl.value.trim();
-        if(!text || isBusy()) return;
+        if(!text) return;
+        flushBot();
         inputEl.value=""; sendEl.disabled=true;
         var lower = text.toLowerCase();
+        var isQ = text.indexOf("?")>-1 || /^(comment|combien|quel|quelle|quand|pourquoi|est-ce|où|qui|avez-vous|as-tu|c'est quoi|qu'est|ça veut dire|ca veut dire)/i.test(lower);
 
         if(step==="description"){
           userSay(text);
@@ -1240,6 +1202,12 @@ draft.phone=text; step="email"; botSay("Ton courriel ?"); return;
           if(lower.indexOf("semaine")>-1){ chooseVisit(VISIT_OPTIONS[0]); return; }
           if(lower.indexOf("convenir")>-1||lower.indexOf("avec shawn")>-1||lower.indexOf("appelle")>-1){ chooseVisit(VISIT_OPTIONS[2]); return; }
         }
+        if(!isQ && step==="project"){
+          for(var pj=0;pj<PROJECT_OPTIONS.length;pj++){ if(lower.indexOf(PROJECT_OPTIONS[pj].toLowerCase().slice(0,6))>-1){ chooseProject(PROJECT_OPTIONS[pj]); return; } }
+        }
+        if(!isQ && step==="timeline"){
+          for(var tk=0;tk<TIMELINE_OPTIONS.length;tk++){ if(lower.indexOf(TIMELINE_OPTIONS[tk].toLowerCase().slice(0,6))>-1){ chooseTimeline(TIMELINE_OPTIONS[tk]); return; } }
+        }
         var answer = factualAnswer(text);
         if(answer){
           userSay(text); rememberChat("user", text); rememberChat("assistant", answer); botSay(answer);
@@ -1263,12 +1231,9 @@ draft.phone=text; step="email"; botSay("Ton courriel ?"); return;
           }
           if(match){ chooseTerrain(match.street); return; }
         }
-        if(step==="project"){
-          for(var j=0;j<PROJECT_OPTIONS.length;j++){ if(lower.indexOf(PROJECT_OPTIONS[j].toLowerCase().slice(0,6))>-1){ chooseProject(PROJECT_OPTIONS[j]); return; } }
-        }
-        if(step==="timeline"){
-          for(var k=0;k<TIMELINE_OPTIONS.length;k++){ if(lower.indexOf(TIMELINE_OPTIONS[k].toLowerCase().slice(0,6))>-1){ chooseTimeline(TIMELINE_OPTIONS[k]); return; } }
-        }
+        if(!isQ && step==="project" && text.length>=3){ userSay(text); draft.projectType=text; step="timeline"; botSay("Et ton délai ?"); return; }
+        if(!isQ && step==="timeline" && text.length>=3){ userSay(text); draft.timeline=text; if(!consentRecorded()){ step="consent"; renderOptions(); botSay("Avant d'envoyer : acceptes-tu les témoins de mesure (Meta) qui nous aident à améliorer nos publicités ? Tu peux refuser — ta demande partira quand même."); } else { proceedToSummary(); } return; }
+        if(!isQ && step==="visite" && text.length>=3){ userSay(text); draft.visitMoment=text; askProject(); return; }
         userSay(text);
         askBatiste(text);
       });
@@ -1301,31 +1266,6 @@ draft.phone=text; step="email"; botSay("Ton courriel ?"); return;
       })();
     })();
     
-  /* Raccord VisualViewport (verdict Codex 2026-10-25) : épingle le chat à la zone réellement visible, clavier iOS ouvert ou fermé. */
-  (() => {
-    const chatEl = document.getElementById("chat");
-    const vv = window.visualViewport;
-    if (!chatEl) return;
-    let frame = 0;
-    function syncVV() {
-      frame = 0;
-      const visibleHeight = vv ? vv.height : window.innerHeight;
-      chatEl.classList.toggle("chat-compact-height", visibleHeight < 420);
-      if (!vv) return;
-      chatEl.style.setProperty("--chat-vx", vv.offsetLeft + "px");
-      chatEl.style.setProperty("--chat-vy", vv.offsetTop + "px");
-      chatEl.style.setProperty("--chat-vw", vv.width + "px");
-      chatEl.style.setProperty("--chat-vh", vv.height + "px");
-    }
-    function scheduleVV() { if (!frame) frame = requestAnimationFrame(syncVV); }
-    if (vv) {
-      vv.addEventListener("resize", scheduleVV);
-      vv.addEventListener("scroll", scheduleVV);
-    }
-    window.addEventListener("resize", scheduleVV);
-    window.addEventListener("pageshow", scheduleVV);
-    syncVV();
-  })();
 </script>
 </body>
 </html>
