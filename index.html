@@ -315,6 +315,12 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
 
       .sb-modal-x{position:absolute;top:.6rem;right:.9rem;background:none;border:0;font-size:1.6rem;line-height:1;cursor:pointer;color:#111}
 #fab,#proactive{display:none!important}
+
+.crochets{list-style:none;margin-top:16px;display:grid;gap:6px;font-size:15.5px}
+.crochets li{background:rgba(10,12,16,.45);border-left:4px solid var(--rouge);border-radius:8px;padding:7px 12px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);max-width:520px}
+.crochets b{font-weight:850}
+@media(max-width:759px){.hero .photo{height:598px}.crochets{font-size:13.5px;gap:5px;margin-top:12px}.crochets li{max-width:350px;padding:6px 10px}.hero .sous{font-size:15.5px}}
+
 </style>
 <script>
   window.sbPixelStarted = false;
@@ -334,29 +340,46 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
   };
   if(window.sbHasConsent()) window.sbStartPixel();
 </script>
+<style id="cadre-symetrique">
+.hero .contenu .wrap{margin-inline:auto;text-align:center}
+.hero h1{margin-inline:auto}
+.hero .sous{margin-inline:auto}
+.hero .crochets{display:flex;flex-direction:column;align-items:center;padding:0}
+.hero .crochets li{width:100%;text-align:center}
+.hero .micro{margin-inline:auto;text-align:center}
+.hero .financement{font-size:1.5em !important}
+@media(min-width:760px){.hero .photo{height:720px}.hero .contenu{padding-bottom:90px}.hero .financement{font-size:1.9em !important}}
+</style>
 </head>
 <body>
 
+
 <header class="hero">
-  <img class="photo" src="img/routier.jpg" alt="Le lac Raymond, au bord du terrain de la rue du Routier">
+  <img class="photo" src="img/hero-lac.jpg" alt="Le lac Raymond, au bord du terrain de la rue du Routier">
   <div class="voile"></div>
   <div class="contenu">
     <div class="wrap">
-      <span class="badge">PLUS QUE 4 TERRAINS</span>
-      <h1>Trouve le terrain qui convient à ton projet</h1>
-      <p class="sous">À partir de <strong>58&#160;888&#160;$</strong> · Étude de sol incluse · À 10 minutes de Saint-Lin</p>
+            <h1>4 terrains restants à Saint-Calixte, à partir de 58&#160;888&#160;$</h1>
+      <p class="financement" style="font-weight:800;font-size:1.28em;line-height:1.3;margin:10px 0 4px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.45)">Financement facile, à partir de 450&#160;$/mois</p>
+      <p class="sous">Terrains plats, peu d'excavation · Étude de sol incluse · Vente avec garantie légale · Moins de 45 minutes de Montréal</p>
+      <ul class="crochets">
+        <li><b>Rue du Routier</b> — BORD DE L'EAU, lac Raymond</li>
+        <li><b>Rue Vercingétorix</b> — accès au Lac Siesta</li>
+        <li><b>Rue Denise</b> — septique conventionnel possible</li>
+        <li><b>Rue des Trembles</b> — facile à construire</li>
+      </ul>
       <button class="cta" data-open-chat>Recevoir le dossier complet — gratuit</button>
-      <p class="micro">Plans, études de sol et vrais coûts de services, par terrain. Sans frais, sans engagement — Shawn vous rappelle personnellement.</p>
+      <p class="micro">Plans, études de sol et vrais coûts de services, par terrain. Sans frais, sans engagement.</p>
     </div>
   </div>
 </header>
 
 <div class="wrap">
   <div class="chips">
-    <div class="chip"><b>✓</b> Étude de sol incluse</div>
-    <div class="chip"><b>✓</b> Dossier complet gratuit</div>
-    <div class="chip"><b>✓</b> Shawn te contacte personnellement</div>
-    <div class="chip">Puits + septique : chiffres affichés plus bas</div>
+    <div class="chip"><b>✓</b> Étude de sol incluse (valeur 2&#160;000&#160;$)</div>
+    <div class="chip"><b>✓</b> Financement facile, à partir de 450&#160;$/mois</div>
+    <div class="chip"><b>✓</b> Vente avec garantie légale</div>
+    <div class="chip"><b>✓</b> Documents complets disponibles sur demande : fiches, plans, déclarations du vendeur et études de sol</div>
   </div>
 </div>
 
@@ -367,7 +390,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
     <div class="grille">
 
       <article class="carte">
-        <div class="ph"><img src="img/trembles.jpg" alt="Terrain rue des Trembles"><span class="etiquette">LE POINT D'ENTRÉE</span></div>
+        <div class="ph"><img src="img/trembles.jpg" alt="Terrain rue des Trembles"></div>
         <div class="corps">
           <h3>Rue des Trembles</h3>
           <div class="prix">58&#160;888&#160;$ <small>· 4,79&#160;$/pi²</small></div>
@@ -381,7 +404,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
       </article>
 
       <article class="carte">
-        <div class="ph"><img src="img/denise.jpg" alt="Terrain rue Denise"><span class="etiquette">SEPTIQUE CONVENTIONNEL</span></div>
+        <div class="ph"><img src="img/denise.jpg" alt="Terrain rue Denise"></div>
         <div class="corps">
           <h3>Rue Denise</h3>
           <div class="prix">67&#160;777&#160;$ <small>· 4,53&#160;$/pi²</small></div>
@@ -395,7 +418,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
       </article>
 
       <article class="carte">
-        <div class="ph"><img src="img/vercingetorix.jpg" alt="Terrain rue Vercingétorix"><span class="etiquette">LE PLUS GRAND</span></div>
+        <div class="ph"><img src="img/vercingetorix.jpg" alt="Terrain rue Vercingétorix"></div>
         <div class="corps">
           <h3>Rue Vercingétorix</h3>
           <div class="prix">77&#160;777&#160;$ <small>· 2,02&#160;$/pi²</small></div>
@@ -431,9 +454,9 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
     <h2>Prévois les coûts de services</h2>
     <p class="sous2">Pour t'aider à planifier ton budget : voici les fourchettes déjà affichées. Le dossier gratuit détaille le reste, terrain par terrain.</p>
     <div class="couts">
-      <div class="cout"><div class="n">PUITS ARTÉSIEN</div><div class="v">8&#160;000&#160;$ – 15&#160;000&#160;$</div><p>Aucun service municipal : l'eau vient d'un puits à forer sur place.</p></div>
-      <div class="cout"><div class="n">INSTALLATION SEPTIQUE</div><div class="v">11&#160;000&#160;$ – 18&#160;000&#160;$</div><p>Selon le sol et le système. L'étude de sol incluse dit exactement où vous vous situez.</p></div>
-      <div class="cout"><div class="n">CONSTRUCTION</div><div class="v">260&#160;$ – 350&#160;$/pi²</div><p>Repère 2026 pour une maison neuve, avant le terrain. Le terrain, lui, part à 2,02&#160;$/pi².</p></div>
+      <div class="cout"><div class="n">PUITS ARTÉSIEN</div><div class="v">11&#160;000&#160;$ – 18&#160;000&#160;$</div><p>Aucun service municipal : l'eau vient d'un puits à forer sur place.</p></div>
+      <div class="cout"><div class="n">INSTALLATION SEPTIQUE</div><div class="v">10&#160;000&#160;$ – 15&#160;000&#160;$</div><p>Selon le sol et le système. L'étude de sol incluse dit exactement où vous vous situez.</p></div>
+      <div class="cout"><div class="n">CONSTRUCTION</div><div class="v">Selon le projet</div><p>Repère 2026 pour une maison neuve, avant le terrain. Le terrain, lui, part à 2,02&#160;$/pi².</p></div>
     </div>
     <p class="note">Fourchettes indicatives basées sur des guides de coûts publics québécois (2025-2026) — les montants exacts se confirment par soumission, terrain par terrain.</p>
   </div>
@@ -444,7 +467,7 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
     <h2>Comment ça marche</h2>
     <div class="pas">
       <div class="pa"><div class="num">1</div><div><h3>Recevez le dossier complet</h3><p>Plans, étude de sol, fiche du terrain et chiffres de services. Vous comparez à tête reposée, sans pression.</p></div></div>
-      <div class="pa"><div class="num">2</div><div><h3>Visitez avec Shawn</h3><p>Les 4 terrains sont à quelques minutes les uns des autres : un seul déplacement pour marcher chacun d'eux.</p></div></div>
+      <div class="pa"><div class="num">2</div><div><h3>Visitez les terrains</h3><p>Les 4 terrains sont à quelques minutes les uns des autres : un seul déplacement pour marcher chacun d'eux.</p></div></div>
       <div class="pa"><div class="num">3</div><div><h3>Achetez accompagné</h3><p>Promesse d'achat, financement et notaire : un courtier d'expérience en construction vous suit jusqu'au bout, avec garantie légale.</p></div></div>
     </div>
   </div>
@@ -456,22 +479,19 @@ footer .nom{color:var(--noir);font-weight:800;font-size:14.5px}
     <details><summary>Y a-t-il des services municipaux (aqueduc, égout) ?</summary><p>Non. Chaque terrain fonctionne avec un puits artésien et une installation septique — c'est le standard du secteur, et les fourchettes de coûts sont affichées plus haut, sans cachette.</p></details>
     <details><summary>L'étude de sol est-elle vraiment incluse ?</summary><p>Oui, pour les 4 terrains. Par exemple, celle de la rue des Trembles (INGÉO, juin 2026) confirme un sol très perméable. Vous la recevez dans le dossier gratuit, avant toute décision.</p></details>
     <details><summary>Autoconstruction ou maison clé en main ?</summary><p>Les deux sont possibles. Les acheteurs actuels des terrains se partagent entre autoconstructeurs et projets clé en main — dites votre type de projet à Batiste, le dossier et la visite s'ajustent.</p></details>
-    <details><summary>Puis-je visiter avant de décider ?</summary><p>Oui — c'est même l'étape recommandée. Demandez le dossier, puis Shawn vous fait marcher le ou les terrains qui vous intéressent, sur rendez-vous.</p></details>
+    <details><summary>Puis-je visiter avant de décider ?</summary><p>Oui — c'est même l'étape recommandée. Demandez le dossier, puis planifiez votre visite des terrains qui vous intéressent, sur rendez-vous.</p></details>
 
     <div class="final">
       <h2>Recevez le dossier complet des 4 terrains</h2>
       <p>Plans, études de sol, prix au pi² et coûts de services — tout ce qu'il faut pour choisir ton terrain.</p>
       <button class="cta" data-open-chat>Recevoir le dossier complet — gratuit</button>
-      <a class="tel2" href="tel:+15149271340">ou appelez Shawn : 514&#160;927-1340</a>
+      <a class="tel2" href="tel:+15149271340">ou appelez Signature SB : 514&#160;927-1340</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="nom">Shawn Barrette, courtier immobilier</div>
-    Signature SB Groupe Immobilier · Saint-Calixte, Lanaudière<br>
-    Vos informations servent uniquement à vous transmettre le dossier et à vous rappeler. Aucune revente, aucun pourriel — politique conforme à la Loi 25.
   </div>
 </footer>
 
@@ -566,7 +586,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
       var TIMELINE_OPTIONS = ["Le plus tôt possible","D'ici 6 mois","L'an prochain","Je m'informe"];
       var DOC_OPTIONS = ["Oui, toute la documentation","Non, juste un rappel"];
       var INTENT_OPTIONS = ["Recevoir le dossier complet","Planifier une visite"];
-      var VISIT_OPTIONS = ["Cette semaine","Cette fin de semaine","À convenir avec Shawn"];
+      var VISIT_OPTIONS = ["Cette semaine","Cette fin de semaine","À convenir"];
       function isValidEmail(value) {
         if (typeof value !== "string" || value.length > 254) return false;
         var parts = value.split("@");
@@ -586,6 +606,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         return /^[2-9]\d{2}[2-9]\d{6}$/.test(digits) && !/^(\d)\1{9}$/.test(digits);
       }
       var BATISTE_API = "https://batiste.shawn-0e2.workers.dev";
+      var PREVIEW_MODE = false; /* PRODUCTION 2026-11-04 : envois réels vers le Worker Batiste */
       
       function captureAttribution(){
         var keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"];
@@ -618,22 +639,22 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         var q = raw.toLowerCase();
         var qn = q.normalize ? q.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : q;
         if(qn.indexOf("taxes municipales")>-1 || qn.indexOf("taxe municipale")>-1){
-          return "Je n'ai pas le montant exact des taxes municipales pour ces terrains. Shawn te le confirmera lors de son appel.";
+          return "Je n'ai pas le montant exact des taxes municipales pour ces terrains. Signature SB te le confirmera lors de son appel.";
         }
         if(qn.indexOf("tps")>-1 || qn.indexOf("tvq")>-1 || ((qn.indexOf("taxe")>-1) && (qn.indexOf("incluse")>-1 || qn.indexOf("incluses")>-1 || qn.indexOf("en sus")>-1 || qn.indexOf("plus les")>-1))){
           return "Les prix affichés sont plus TPS/TVQ.";
         }
         if(qn.indexOf("negociable")>-1 || qn.indexOf("faire une offre")>-1 || qn.indexOf("deposer une offre")>-1){
-          return "Les prix affichés sont les prix demandés. Pour une offre, ça se discute directement avec Shawn lors de son appel.";
+          return "Les prix affichés sont les prix demandés. Pour une offre, ça se discute directement lors de l'appel de suivi.";
         }
         if(qn.indexOf("financement")>-1 || qn.indexOf("financer")>-1 || qn.indexOf("hypotheque")>-1 || qn.indexOf("prequalification")>-1){
-          return "Pour le financement, Shawn te confirmera les options lors de son appel.";
+          return "Pour le financement, Signature SB te confirmera les options lors de son appel.";
         }
         if((qn.indexOf("limite de temps")>-1 || qn.indexOf("combien de temps")>-1 || qn.indexOf("delai")>-1) && (qn.indexOf("constru")>-1 || qn.indexOf("permis")>-1)){
-          return "Je n'ai pas de limite de temps confirmée à te donner pour construire. Shawn te confirmera ce point lors de son appel.";
+          return "Je n'ai pas de limite de temps confirmée à te donner pour construire. Signature SB te confirmera ce point lors de son appel.";
         }
         if(qn.indexOf("visiter")>-1 || qn.indexOf("visite")>-1){
-          return "Pour planifier une visite, complète ta demande ici : Shawn te rappellera et fixera le moment avec toi.";
+          return "Pour planifier une visite, complète ta demande ici : Signature SB te rappellera pour fixer le moment avec toi.";
         }
         if(qn.indexOf("vercingetorix")>-1 && (qn.indexOf("septique")>-1 || qn.indexOf("sol")>-1 || qn.indexOf("roc")>-1 || qn.indexOf("excavation")>-1)){
           return "Pour Vercingétorix, l'étude INGÉO (mai 2025) indique du roc à 1,0 m : on privilégie une installation septique hors-sol.";
@@ -663,7 +684,7 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           return "Un seul terrain est en bord de l'eau : la rue du Routier (98 888 $, 24 657 pi²) est bordée par le lac Raymond — vue imprenable, accès direct à l'eau. La rue Vercingétorix (77 777 $, 38 577 pi²) donne accès au Lac Siesta — sans être au bord de l'eau.";
         }
         if(q.indexOf("saint-lin")>-1||q.indexOf("saint lin")>-1||q.indexOf("distance")>-1||q.indexOf("loin")>-1){
-          return "Les 4 terrains sont à Saint-Calixte, à 10 minutes de Saint-Lin, dans Lanaudière.";
+          return "Les 4 terrains sont à Saint-Calixte, à moins de 45 minutes de Montréal, dans Lanaudière.";
         }
         if(q.indexOf("zonage")>-1||q.indexOf("construire")>-1||q.indexOf("maison")>-1){
           return "Le zonage est résidentiel sur les 4 lots. La forme et la taille du lot décident du modèle de maison qui y rentre bien — dis-moi ton projet et je te dirai lequel convient le mieux.";
@@ -800,6 +821,9 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         if(chatHistory.length>12) chatHistory = chatHistory.slice(-12);
       }
       function stepContinuation(){
+        if(step==="name") return "On continue : ton nom ?";
+        if(step==="phone") return "On continue : ton numéro de téléphone ?";
+        if(step==="email") return "On continue : ton courriel ?";
         if(step==="terrain") return "Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?";
         if(step==="documentation") return "On continue : tu veux recevoir la documentation ? Choisis une option ci-dessous.";
         if(step==="intention") return "On continue : tu veux recevoir le dossier complet, ou planifier une visite ?";
@@ -811,6 +835,12 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
       }
       function askBatiste(text){
         if(chatPending) return;
+        if(PREVIEW_MODE){
+          rememberChat("user", text);
+          botSay("Je suis en mode aperçu local : je ne réponds pas librement ici, mais on continue ta demande avec les options.");
+          var contP = stepContinuation(); if(contP) botSay(contP);
+          return;
+        }
         var version = flowVersion;
         chatPending = true;
         rememberChat("user", text);
@@ -894,7 +924,12 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
       }
       function chooseTimeline(value){
         userSay(value); draft.timeline=value;
-        step="name"; botSay("Ton nom ?");
+        if(!consentRecorded()){
+          step="consent"; renderOptions();
+          botSay("Avant d'envoyer : acceptes-tu les témoins de mesure (Meta) qui nous aident à améliorer nos publicités ? Tu peux refuser — ta demande partira quand même.");
+        } else {
+          proceedToSummary();
+        }
       }
       function onOption(value){
         if(isBusy()) return;
@@ -1030,6 +1065,22 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         var btn = msgsEl.querySelector(".btn-send");
         if(btn){ btn.disabled = true; btn.textContent = "Envoi en cours…"; }
         var payload = buildLeadPayload();
+        if(PREVIEW_MODE){
+          leadSubmitting = false;
+          var card0 = document.getElementById("summary-card");
+          if(card0) card0.remove();
+          step = "done"; renderOptions();
+          if(draft.intention==="Planifier une visite"){
+            botSay("C'est envoyé ! Signature SB te rappelle au "+draft.phone+" pour confirmer ta visite de la "+draft.terrain+" ("+draft.visitMoment.toLowerCase()+"). Merci ! 🏡");
+          } else if(draft.documentation.indexOf("Oui")===0 && draft.terrain==="Les 4"){
+            botSay("C'est envoyé ! 📩 La documentation complète des 4 terrains partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Merci !");
+          } else if(draft.documentation.indexOf("Oui")===0){
+            botSay("C'est envoyé ! 📩 La documentation de la "+draft.terrain+" partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Merci !");
+          } else {
+            botSay("C'est envoyé ! Signature SB te rappelle rapidement au "+draft.phone+". Merci ! 🏡");
+          }
+          return;
+        }
         var controller = window.AbortController ? new AbortController() : null;
         var timeout = controller ? window.setTimeout(function(){ controller.abort(); }, 30000) : null;
         fetch(BATISTE_API + "/lead", {
@@ -1056,11 +1107,11 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
           if(card) card.remove();
           step = "done"; renderOptions();
           if(draft.intention==="Planifier une visite"){
-            botSay("C'est envoyé ! Shawn te rappelle au "+draft.phone+" pour confirmer ta visite de la "+draft.terrain+" ("+draft.visitMoment.toLowerCase()+"). Merci ! 🏡");
+            botSay("C'est envoyé ! Signature SB te rappelle au "+draft.phone+" pour confirmer ta visite de la "+draft.terrain+" ("+draft.visitMoment.toLowerCase()+"). Merci ! 🏡");
           } else if(draft.documentation.indexOf("Oui")===0 && draft.terrain==="Les 4"){
-            botSay("C'est envoyé ! 📩 La documentation complète des 4 terrains partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Et Shawn te contactera personnellement pour en discuter plus en détail. Merci !");
+            botSay("C'est envoyé ! 📩 La documentation complète des 4 terrains partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Merci !");
           } else if(draft.documentation.indexOf("Oui")===0){
-            botSay("C'est envoyé ! 📩 La documentation de la "+draft.terrain+" partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Et Shawn te contactera personnellement pour en discuter plus en détail. Merci !");
+            botSay("C'est envoyé ! 📩 La documentation de la "+draft.terrain+" partira à ton courriel ("+draft.email+"), et Signature SB te rappelle au "+draft.phone+". Merci !");
           } else {
             botSay("C'est envoyé ! Signature SB te rappelle rapidement au "+draft.phone+". Merci ! 🏡");
           }
@@ -1093,13 +1144,13 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         queue = []; busyFlag=false; chatHistory = []; chatPending = false; leadPayload = null; leadSubmitting = false; hideTyping();
         if(preset){
           draft.terrain = preset;
+          step="name";
           botSay(preset==="Rue du Routier"
-            ? "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 Rue du Routier — bord de l'eau, lac Raymond. Un seul disponible."
-            : "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 La "+preset+" — un seul disponible.");
-          askIntention(preset);
+            ? "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 Rue du Routier — bord de l'eau, lac Raymond. Un seul disponible. Avant le dossier, je prends tes coordonnées. Ton nom ?"
+            : "Salut ! Moi, c'est Batiste, l'assistant de Signature SB. 👋 La "+preset+" — un seul disponible. Avant le dossier, je prends tes coordonnées. Ton nom ?");
         } else {
-          step="terrain";
-          botSay("Salut ! Moi, c'est Batiste, l'assistant de Signature SB. Tu regardes pour un terrain à Saint-Calixte ? Il reste 4 terrains — lequel t'intéresse ?");
+          step="name";
+          botSay("Salut ! Moi, c'est Batiste, l'assistant de Signature SB. Tu regardes pour un terrain à Saint-Calixte ? Il reste 4 terrains. Avant de choisir, je prends tes coordonnées. Ton nom ?");
         }
         started=true; renderOptions(); updatePlaceholder();
       }
@@ -1152,25 +1203,21 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         }
         if(step==="name"){
           userSay(text);
-          if(text.length<2){ botSay("Il me faut ton nom pour la demande — c'est à ce nom que Shawn te répondra. Ton nom ?"); return; }
-          draft.name=text; step="email"; botSay("Ton courriel ?"); return;
+          if(text.length<2){ botSay("Il me faut ton nom pour la demande — c'est à ce nom qu'on te répondra. Ton nom ?"); return; }
+          draft.name=text; step="phone"; botSay("Ton numéro de téléphone ?"); return;
         }
         if(step==="email"){
           userSay(text);
           if(!isValidEmail(text)){ botSay("Ce courriel semble incomplet — il me faut une adresse valide (ex. : nom@exemple.com). Réessaie ?"); return; }
-          draft.email=text; step="phone"; botSay("Ton numéro de téléphone ?"); return;
+          draft.email=text;
+          if(draft.terrain){ askIntention(draft.terrain); }
+          else { step="terrain"; botSay("Merci ! Et lequel des 4 terrains t'intéresse — ou « Les 4 » pour l'information sur les 4 ?"); }
+          return;
         }
         if(step==="phone"){
           userSay(text);
           if(!isValidPhone(text)){ botSay("Ce numéro semble incomplet — il me faut 10 chiffres. Réessaie ?"); return; }
-          draft.phone=text;
-          if(!consentRecorded()){
-            step="consent"; renderOptions();
-            botSay("Avant d'envoyer : acceptes-tu les témoins de mesure (Meta) qui nous aident à améliorer nos publicités ? Tu peux refuser — ta demande partira quand même.");
-          } else {
-            proceedToSummary();
-          }
-          return;
+draft.phone=text; step="email"; botSay("Ton courriel ?"); return;
         }
         if(step==="consent"){
           var cn = lower.normalize ? lower.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim() : lower.trim();
@@ -1196,7 +1243,10 @@ var _pa = document.querySelector("img[data-avatar-copy]"); if (_pa && AVATAR_SRC
         var answer = factualAnswer(text);
         if(answer){
           userSay(text); rememberChat("user", text); rememberChat("assistant", answer); botSay(answer);
-          if(step==="terrain") botSay("Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?");
+          if(step==="name") botSay("On continue : ton nom ?");
+          else if(step==="phone") botSay("On continue : ton numéro de téléphone ?");
+          else if(step==="email") botSay("On continue : ton courriel ?");
+          else if(step==="terrain") botSay("Alors, lequel des 4 t'intéresse — ou « Les 4 » pour l'information sur les 4 ?");
           else if(step==="documentation") botSay("On continue : tu veux recevoir la documentation ? Choisis une option ci-dessous.");
           else if(step==="project") botSay("On continue : ton projet, ça ressemble à quoi ?");
           else if(step==="timeline") botSay("On continue : ton délai, tu penses à quand ?");
